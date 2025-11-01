@@ -12,12 +12,12 @@ public class Movie {
 
     public Movie() { }
 
-    public Movie(int movieId, String title, String genre, String releaseDate, String rating, String description, String coverImage) {
+    public Movie(int movieId, String title, String genre, String rating, String releaseDate, String description, String coverImage) {
         this.movieId = movieId;
         this.title = title;
         this.genre = genre;
-        this.releaseDate = releaseDate;
         this.rating = rating;
+        this.releaseDate = releaseDate;
         this.description = description;
         this.coverImage = coverImage;
     }
