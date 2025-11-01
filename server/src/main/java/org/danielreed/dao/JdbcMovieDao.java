@@ -1,11 +1,14 @@
 package org.danielreed.dao;
 
+import org.danielreed.exception.DaoException;
 import org.danielreed.model.Movie;
+import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -19,27 +22,97 @@ public class JdbcMovieDao implements MovieDao {
 
     @Override
     public List<Movie> getAllMovies() {
-        return null;
+
+        List<Movie> movies = new ArrayList<>();
+        String sql = "SELECT movie_id, title, genre, rating, release_date, description, cover_image " +
+                     "FROM movies " +
+                     "ORDER BY movie_id;";
+        try {
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
+            while (results.next()) {
+                movies.add(mapRowToMovie(results));
+            }
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        }
+
+        return movies;
     }
 
     @Override
     public Movie getMovieByTitle(String title) {
-        return null;
+
+        Movie movie = null;
+        String sql = "SELECT movie_id, title, genre, rating, release_date, description, cover_image " +
+                     "FROM movies " +
+                     "WHERE title = ?;";
+        try {
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
+            if (results.next()) {
+                movie = mapRowToMovie(results);
+            }
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        }
+
+        return movie;
     }
 
     @Override
     public List<Movie> getMoviesByGenre(String genre) {
-        return null;
+
+        List<Movie> movies = new ArrayList<>();
+        String sql = "SELECT movie_id, title, genre, rating, release_date, description, cover_image " +
+                     "FROM movies " +
+                     "WHERE genre = ?;";
+        try {
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
+            while (results.next()) {
+                movies.add(mapRowToMovie(results));
+            }
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        }
+
+        return movies;
     }
 
     @Override
     public List<Movie> getMoviesByRating(String rating) {
-        return null;
+
+        List<Movie> movies = new ArrayList<>();
+        String sql = "SELECT movie_id, title, genre, rating, release_date, description, cover_image " +
+                     "FROM movies " +
+                     "WHERE rating = ?;";
+        try {
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
+            while (results.next()) {
+                movies.add(mapRowToMovie(results));
+            }
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        }
+
+        return movies;
     }
 
     @Override
     public List<Movie> getMoviesByReleaseDate(String releaseDate) {
-        return null;
+
+        List<Movie> movies = new ArrayList<>();
+        String sql = "SELECT movie_id, title, genre, rating, release_date, description, cover_image" +
+                     "FROM movies " +
+                     "WHERE release_date = ?;";
+        try {
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
+            while (results.next()) {
+                movies.add(mapRowToMovie(results));
+            }
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        }
+
+        return movies;
     }
 
     private Movie mapRowToMovie(SqlRowSet rowSet) {
