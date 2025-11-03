@@ -22,11 +22,10 @@ public class User {
     private String city;
     private String stateCode;
     private String zipCode;
-    private Integer rating;
 
     public User() { }
 
-    public User(int id, String username, String hashedPassword, String role, String name, String address, String city, String stateCode, String zipCode, Integer rating) {
+    public User(int id, String username, String hashedPassword, String role, String name, String address, String city, String stateCode, String zipCode) {
         this.id = id;
         this.username = username;
         this.hashedPassword = hashedPassword;
@@ -36,11 +35,10 @@ public class User {
         this.city = city;
         this.stateCode = stateCode;
         this.zipCode = zipCode;
-        this.rating = rating;
     }
 
-    public User(String username, String hashedPassword, String role, String name, String address, String city, String stateCode, String zipCode, Integer rating) {
-        this(0, username, hashedPassword, role, name, address, city, stateCode, zipCode, rating);
+    public User(String username, String hashedPassword, String role, String name, String address, String city, String stateCode, String zipCode) {
+        this(0, username, hashedPassword, role, name, address, city, stateCode, zipCode);
     }
 
     public int getId() {
@@ -108,13 +106,6 @@ public class User {
         this.zipCode = zipCode;
     }
 
-    public Integer getRating() {
-        return rating;
-    }
-    public void setRating(Integer rating) {
-        this.rating = rating;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -128,13 +119,12 @@ public class User {
                 Objects.equals(address, user.address) &&
                 Objects.equals(city, user.city) &&
                 Objects.equals(stateCode, user.stateCode) &&
-                Objects.equals(zipCode, user.zipCode) &&
-                Objects.equals(rating, user.rating);
+                Objects.equals(zipCode, user.zipCode);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, hashedPassword, role, name, address, city, stateCode, zipCode, rating);
+        return Objects.hash(id, username, hashedPassword, role, name, address, city, stateCode, zipCode);
     }
 
     @Override
@@ -149,7 +139,6 @@ public class User {
                 ", city='" + city + '\'' +
                 ", stateCode='" + stateCode + '\'' +
                 ", zipCode='" + zipCode + '\'' +
-                ", rating='" + rating + '\'' +
                 '}';
     }
 }
