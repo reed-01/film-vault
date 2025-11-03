@@ -47,7 +47,7 @@ public class JdbcMovieDao implements MovieDao {
                      "FROM movies " +
                      "WHERE title = ?;";
         try {
-            SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, title);
             if (results.next()) {
                 movie = mapRowToMovie(results);
             }
@@ -66,7 +66,7 @@ public class JdbcMovieDao implements MovieDao {
                      "FROM movies " +
                      "WHERE genre = ?;";
         try {
-            SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, genre);
             while (results.next()) {
                 movies.add(mapRowToMovie(results));
             }
@@ -85,7 +85,7 @@ public class JdbcMovieDao implements MovieDao {
                      "FROM movies " +
                      "WHERE rating = ?;";
         try {
-            SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, rating);
             while (results.next()) {
                 movies.add(mapRowToMovie(results));
             }
@@ -100,11 +100,11 @@ public class JdbcMovieDao implements MovieDao {
     public List<Movie> getMoviesByReleaseDate(String releaseDate) {
 
         List<Movie> movies = new ArrayList<>();
-        String sql = "SELECT movie_id, title, genre, rating, release_date, description, cover_image" +
+        String sql = "SELECT movie_id, title, genre, rating, release_date, description, cover_image " +
                      "FROM movies " +
                      "WHERE release_date = ?;";
         try {
-            SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, releaseDate);
             while (results.next()) {
                 movies.add(mapRowToMovie(results));
             }
