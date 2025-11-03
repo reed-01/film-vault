@@ -1,35 +1,41 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-function App() {
-  const [count, setCount] = useState(0)
+import Header from "./components/Header/Header";
+import NavBar from "./components/NavBar/NavBar";
+import Footer from "./components/Footer/Footer";
+import LoginView from "./views/LoginView/LoginView";
+import LogoutView from "./views/LogoutView";
+import RegisterView from "./views/RegisterView/RegisterView";
 
+import HomeView from "./views/HomeView/HomeView";
+import SingleMovieView from "./views/SingleMovieView/SingleMovieView";
+import ProtectedRoute from "./components/ProtectedRoute";
+
+export default function App() {
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div id="film-app">
+      <BrowserRouter>
+        <Header />
+        <NavBar />
+        <main>
+          <Routes>
+            <Route path="/" element={<HomeView />} />
+            <Route path="/movies/id" element={<SingleMovieView />} />
+            <Route
+              path="/collection"
+              element={
+                <ProtectedRoute>
+                  <CollectionView />
+                </ProtectedRoute>
+              }
+            />
+            <Route path="/login" element={<LoginView />} />
+            <Route path="/logout" element={<LogoutView />} />
+            <Route path="/register" element={<RegisterView />} />
+          </Routes>
+        </main>
+        <Footer />
+      </BrowserRouter>
+    </div>
+  );
 }
-
-export default App
