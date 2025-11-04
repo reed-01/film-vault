@@ -17,6 +17,7 @@ export default function App() {
       <BrowserRouter>
         <Header />
         <NavBar />
+
         <main>
           <Routes>
             <Route path="/" element={<HomeView />} />
@@ -34,6 +35,7 @@ export default function App() {
             <Route path="/register" element={<RegisterView />} />
           </Routes>
         </main>
+
         <Footer />
       </BrowserRouter>
     </div>

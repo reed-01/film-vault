@@ -10,10 +10,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class JdbcMovieDaoTest extends BaseDaoTest {
 
-    private static final Movie MOVIE_1 = new Movie(1, "title1", "genre1", "A", "01-01-0101", "Test1 Description", "test-1.png");
-    private static final Movie MOVIE_2 = new Movie(2, "title2", "genre2", "B", "02-02-0202", "Test2 Description", "test-2.png");
-    private static final Movie MOVIE_3 = new Movie(3, "title3", "genre3", "C", "03-03-0303", "Test3 Description", "test-3.png");
-    private static final Movie MOVIE_4 = new Movie(4, "title4", "genre4", "D", "04-04-0404", "Test4 Description", "test-4.png");
+    private static final Movie MOVIE_1 = new Movie(1, "title1", "01-01-0101", "Test1 Description", "test-1.png");
+    private static final Movie MOVIE_2 = new Movie(2, "title2", "02-02-0202", "Test2 Description", "test-2.png");
+    private static final Movie MOVIE_3 = new Movie(3, "title3", "03-03-0303", "Test3 Description", "test-3.png");
+    private static final Movie MOVIE_4 = new Movie(4, "title4", "04-04-0404", "Test4 Description", "test-4.png");
 
 
     private JdbcMovieDao dao;
@@ -54,36 +54,6 @@ public class JdbcMovieDaoTest extends BaseDaoTest {
     }
 
     @Test
-    public void getMoviesByGenre_only_returns_list_of_movies_with_valid_genre() {
-
-        List<Movie> movies = dao.getMoviesByGenre("genre3");
-        assertEquals(1, movies.size());
-        assertMoviesMatch(MOVIE_3, movies.get(0));
-    }
-
-    @Test
-    public void getMoviesByGenre_only_returns_empty_list_of_movies_with_invalid_genre() {
-
-        List<Movie> movies = dao.getMoviesByGenre("genre99");
-        assertTrue(movies.isEmpty());
-    }
-
-    @Test
-    public void getMoviesByRating_only_returns_list_of_movies_with_valid_rating() {
-
-        List<Movie> movies = dao.getMoviesByRating("D");
-        assertEquals(1, movies.size());
-        assertMoviesMatch(MOVIE_4, movies.get(0));
-    }
-
-    @Test
-    public void getMoviesByRating_only_returns_empty_list_of_movies_with_invalid_rating() {
-
-        List<Movie> movies = dao.getMoviesByRating("Z");
-        assertTrue(movies.isEmpty());
-    }
-
-    @Test
     public void getMoviesByReleaseDate_only_returns_list_of_movies_with_valid_release_date() {
 
         List<Movie> movies = dao.getMoviesByReleaseDate("01-01-0101");
@@ -102,10 +72,8 @@ public class JdbcMovieDaoTest extends BaseDaoTest {
 
         assertEquals(expected.getMovieId(), actual.getMovieId());
         assertEquals(expected.getTitle(), actual.getTitle());
-        assertEquals(expected.getGenre(), actual.getGenre());
-        assertEquals(expected.getRating(), actual.getRating());
         assertEquals(expected.getReleaseDate(), actual.getReleaseDate());
-        assertEquals(expected.getDescription(), actual.getDescription());
-        assertEquals(expected.getCoverImage(), actual.getCoverImage());
+        assertEquals(expected.getOverview(), actual.getOverview());
+        assertEquals(expected.getPoster(), actual.getPoster());
     }
 }

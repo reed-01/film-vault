@@ -4,22 +4,18 @@ public class Movie {
 
     private int movieId;
     private String title;
-    private String genre;
-    private String rating;
     private String releaseDate;
-    private String description;
-    private String coverImage;
+    private String overview;
+    private String poster;
 
     public Movie() { }
 
-    public Movie(int movieId, String title, String genre, String rating, String releaseDate, String description, String coverImage) {
+    public Movie(int movieId, String title, String releaseDate, String overview, String poster) {
         this.movieId = movieId;
         this.title = title;
-        this.genre = genre;
-        this.rating = rating;
         this.releaseDate = releaseDate;
-        this.description = description;
-        this.coverImage = coverImage;
+        this.overview = overview;
+        this.poster = poster;
     }
 
     public int getMovieId() {
@@ -38,22 +34,6 @@ public class Movie {
         this.title = title;
     }
 
-    public String getGenre() {
-        return genre;
-    }
-
-    public void setGenre(String genre) {
-        this.genre = genre;
-    }
-
-    public String getRating() {
-        return rating;
-    }
-
-    public void setRating(String rating) {
-        this.rating = rating;
-    }
-
     public String getReleaseDate() {
         return releaseDate;
     }
@@ -62,19 +42,19 @@ public class Movie {
         this.releaseDate = releaseDate;
     }
 
-    public String getDescription() {
-        return description;
+    public String getOverview() {
+        return overview;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setOverview(String overview) {
+        this.overview = overview;
     }
 
-    public String getCoverImage() {
-        return coverImage;
+    public String getPoster() {
+        return poster;
     }
 
-    public void setCoverImage(String coverImage) {
-        this.coverImage = coverImage;
+    public void setPoster(String poster) {
+        this.poster = poster;
     }
 }

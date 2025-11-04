@@ -40,20 +40,8 @@ public class MovieController {
     }
 
     @PreAuthorize("permitAll")
-    @RequestMapping(path = "/{genre}", method = RequestMethod.GET)
-    public List<Movie> getMoviesByGenre(@PathVariable String genre) {
-        return movieDao.getMoviesByGenre(genre);
-    }
-
-    @PreAuthorize("permitAll")
-    @RequestMapping(path = "/{rating}", method = RequestMethod.GET)
-    public List<Movie> getMoviesByRating(@PathVariable String rating) {
-        return movieDao.getMoviesByGenre(rating);
-    }
-
-    @PreAuthorize("permitAll")
     @RequestMapping(path = "/{release_date}", method = RequestMethod.GET)
     public List<Movie> getMoviesByReleaseDate(@PathVariable String releaseDate) {
-        return movieDao.getMoviesByGenre(releaseDate);
+        return movieDao.getMoviesByReleaseDate(releaseDate);
     }
 }

@@ -9,9 +9,5 @@ public interface MovieDao {
 
     Movie getMovieByTitle(String title);
 
-    List<Movie> getMoviesByGenre(String genre);
-
-    List<Movie> getMoviesByRating(String rating);
-
     List<Movie> getMoviesByReleaseDate(String releaseDate);
 }
