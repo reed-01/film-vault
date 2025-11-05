@@ -7,4 +7,6 @@ import java.util.List;
 public interface GenreDao {
 
     List<Genre> getGenresByMovie(String name);
+
+    List<Genre> getGenresByTelevision(String name);
 }

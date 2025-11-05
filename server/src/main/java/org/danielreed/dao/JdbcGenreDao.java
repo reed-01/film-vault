@@ -40,6 +40,24 @@ public class JdbcGenreDao implements GenreDao {
         return genres;
     }
 
+    @Override
+    public List<Genre> getGenresByTelevision(String name) {
+
+        List<Genre> genres = new ArrayList<>();
+        String sql = "";
+
+        try {
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, name);
+            while (results.next()) {
+                genres.add(mapRowToGenre(results));
+            }
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database");
+        }
+
+        return genres;
+    }
+
     private Genre mapRowToGenre(SqlRowSet rowSet) {
         Genre genre = new Genre();
         genre.setGenreId(rowSet.getInt("genre_id"));
