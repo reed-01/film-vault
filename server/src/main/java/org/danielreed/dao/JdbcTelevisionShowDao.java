@@ -1,7 +1,7 @@
 package org.danielreed.dao;
 
 import org.danielreed.exception.DaoException;
-import org.danielreed.model.Movie;
+import org.danielreed.model.TelevisionShow;
 import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
@@ -12,72 +12,73 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class JdbcMovieDao implements MovieDao {
+public class JdbcTelevisionShowDao implements TelevisionShowDao {
 
     private final JdbcTemplate jdbcTemplate;
 
-    public JdbcMovieDao(DataSource dataSource) {
-        this.jdbcTemplate = new JdbcTemplate(dataSource);
+    public JdbcTelevisionShowDao(DataSource datasource) {
+        this.jdbcTemplate = new JdbcTemplate(datasource);
     }
 
     @Override
-    public List<Movie> getAllMovies() {
+    public List<TelevisionShow> getAllTelevisionShows() {
 
-        List<Movie> movies = new ArrayList<>();
+        List<TelevisionShow> televisionShows = new ArrayList<>();
         String sql = "";
         try {
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
             while (results.next()) {
-                movies.add(mapRowToMovie(results));
+                televisionShows.add(mapRowToTelevisionShow(results));
             }
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
         }
 
-        return movies;
+        return televisionShows;
     }
 
     @Override
-    public Movie getMovieByTitle(String title) {
+    public TelevisionShow getTelevisionShowsByTitle(String title) {
 
-        Movie movie = null;
+        TelevisionShow televisionShow = null;
         String sql = "";
         try {
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql, title);
             if (results.next()) {
-                movie = mapRowToMovie(results);
+                televisionShow = mapRowToTelevisionShow(results);
             }
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
         }
 
-        return movie;
+        return televisionShow;
     }
 
     @Override
-    public List<Movie> getMoviesByReleaseDate(String releaseDate) {
+    public List<TelevisionShow> getTelevisionShowsByReleaseDate(String releaseDate) {
 
-        List<Movie> movies = new ArrayList<>();
+        List<TelevisionShow> televisionShows = new ArrayList<>();
         String sql = "";
         try {
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql, releaseDate);
             while (results.next()) {
-                movies.add(mapRowToMovie(results));
+                televisionShows.add(mapRowToTelevisionShow(results));
             }
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
         }
 
-        return movies;
+        return televisionShows;
     }
 
-    private Movie mapRowToMovie(SqlRowSet rowSet) {
-        Movie movie = new Movie();
-        movie.setMovieId(rowSet.getInt("movie_id"));
-        movie.setTitle(rowSet.getString("title"));
-        movie.setReleaseDate(rowSet.getString("release_date"));
-        movie.setOverview(rowSet.getString("overview"));
-        movie.setPoster(rowSet.getString("poster"));
-        return movie;
+    private TelevisionShow mapRowToTelevisionShow(SqlRowSet rowSet) {
+        TelevisionShow televisionShow = new TelevisionShow();
+        televisionShow.setTelevisionShowId(rowSet.getInt("television_show_id"));
+        televisionShow.setTitle(rowSet.getString("title"));
+        televisionShow.setReleaseDate(rowSet.getString("release_date"));
+        televisionShow.setOverview(rowSet.getString("overview"));
+        televisionShow.setPoster(rowSet.getString("poster"));
+        return televisionShow;
     }
 }
+

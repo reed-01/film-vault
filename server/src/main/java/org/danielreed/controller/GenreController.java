@@ -25,4 +25,10 @@ public class GenreController {
     public List<Genre> getGenresByMovie(@PathVariable String name) {
         return genreDao.getGenresByMovie(name);
     }
+
+    @PreAuthorize("permitAll")
+    @RequestMapping(path = "/{genres}", method = RequestMethod.GET)
+    public List<Genre> getGenresByTelevision(@PathVariable String name) {
+        return genreDao.getGenresByTelevision(name);
+    }
 }
