@@ -41,7 +41,7 @@ public class JdbcGenreDao implements GenreDao {
     }
 
     @Override
-    public List<Genre> getGenresByTelevision(String name) {
+    public List<Genre> getGenresByTelevisionShow(String name) {
 
         List<Genre> genres = new ArrayList<>();
         String sql = "";

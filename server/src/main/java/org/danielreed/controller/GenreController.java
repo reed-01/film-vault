@@ -29,6 +29,6 @@ public class GenreController {
     @PreAuthorize("permitAll")
     @RequestMapping(path = "/{genres}", method = RequestMethod.GET)
     public List<Genre> getGenresByTelevision(@PathVariable String name) {
-        return genreDao.getGenresByTelevision(name);
+        return genreDao.getGenresByTelevisionShow(name);
     }
 }
