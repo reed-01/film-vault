@@ -8,5 +8,5 @@ public interface GenreDao {
 
     List<Genre> getGenresByMovie(String name);
 
-    List<Genre> getGenresByTelevision(String name);
+    List<Genre> getGenresByTelevisionShow(String name);
 }

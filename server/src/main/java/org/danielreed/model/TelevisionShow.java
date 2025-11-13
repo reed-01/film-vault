@@ -6,16 +6,16 @@ public class TelevisionShow {
     private String title;
     private String releaseDate;
     private String overview;
-    private String poster;
+    private String posterPath;
 
     public TelevisionShow() { }
 
-    public TelevisionShow(int televisionShowId, String title, String releaseDate, String overview, String poster) {
+    public TelevisionShow(int televisionShowId, String title, String releaseDate, String overview, String posterPath) {
         this.televisionShowId = televisionShowId;
         this.title = title;
         this.releaseDate = releaseDate;
         this.overview = overview;
-        this.poster = poster;
+        this.posterPath = posterPath;
     }
 
     public int getTelevisionShowId() {
@@ -50,11 +50,11 @@ public class TelevisionShow {
         this.overview = overview;
     }
 
-    public String getPoster() {
-        return poster;
+    public String getPosterPath() {
+        return posterPath;
     }
 
-    public void setPoster(String poster) {
-        this.poster = poster;
+    public void setPosterPath(String posterPath) {
+        this.posterPath = posterPath;
     }
 }

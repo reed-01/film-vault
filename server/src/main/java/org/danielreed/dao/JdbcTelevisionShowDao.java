@@ -24,7 +24,8 @@ public class JdbcTelevisionShowDao implements TelevisionShowDao {
     public List<TelevisionShow> getAllTelevisionShows() {
 
         List<TelevisionShow> televisionShows = new ArrayList<>();
-        String sql = "";
+        String sql = "SELECT television_show_id, title, release_date, overview, poster_path " +
+                     "FROM television_shows;";
         try {
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
             while (results.next()) {
@@ -41,7 +42,9 @@ public class JdbcTelevisionShowDao implements TelevisionShowDao {
     public TelevisionShow getTelevisionShowsByTitle(String title) {
 
         TelevisionShow televisionShow = null;
-        String sql = "";
+        String sql = "SELECT television_show_id, title, release_date, overview, poster_path " +
+                     "FROM television_shows " +
+                     "WHERE title = ?;";
         try {
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql, title);
             if (results.next()) {
@@ -58,7 +61,9 @@ public class JdbcTelevisionShowDao implements TelevisionShowDao {
     public List<TelevisionShow> getTelevisionShowsByReleaseDate(String releaseDate) {
 
         List<TelevisionShow> televisionShows = new ArrayList<>();
-        String sql = "";
+        String sql = "SELECT television_show_id, title, release_date, overview, poster_path " +
+                     "FROM television_shows " +
+                     "WHERE release_date = ?;";
         try {
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql, releaseDate);
             while (results.next()) {
@@ -77,7 +82,7 @@ public class JdbcTelevisionShowDao implements TelevisionShowDao {
         televisionShow.setTitle(rowSet.getString("title"));
         televisionShow.setReleaseDate(rowSet.getString("release_date"));
         televisionShow.setOverview(rowSet.getString("overview"));
-        televisionShow.setPoster(rowSet.getString("poster"));
+        televisionShow.setPosterPath(rowSet.getString("poster_path"));
         return televisionShow;
     }
 }
