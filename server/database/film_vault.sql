@@ -1,10 +1,17 @@
--- database m2_final_project
+-- database film_vault
 BEGIN TRANSACTION;
 
 -- *************************************************************************************************
 -- Drop all db objects in the proper order
 -- *************************************************************************************************
+DROP TABLE IF EXISTS movie_credits CASCADE;
+DROP TABLE IF EXISTS television_show_credits CASCADE;
+DROP TABLE IF EXISTS movie_genres CASCADE;
+DROP TABLE IF EXISTS television_show_genres CASCADE;
 DROP TABLE IF EXISTS movies CASCADE;
+DROP TABLE IF EXISTS television_shows CASCADE;
+DROP TABLE IF EXISTS genres CASCADE;
+DROP TABLE IF EXISTS people CASCADE;
 DROP TABLE IF EXISTS users CASCADE;
 
 -- *************************************************************************************************
@@ -15,11 +22,20 @@ DROP TABLE IF EXISTS users CASCADE;
 CREATE TABLE movies (
 	movie_id SERIAL,
 	title VARCHAR(300) NOT NULL,
-	genre VARCHAR(100),
 	release_date DATE,
 	overview TEXT,
 	poster VARCHAR(500),
 	CONSTRAINT PK_movie PRIMARY KEY (movie_id)
+);
+
+-- television shows
+CREATE TABLE television_shows (
+    television_show_id SERIAL,
+    title VARCHAR(300) NOT NULL,
+    release_date DATE,
+    overview TEXT,
+    poster VARCHAR(500),
+    CONSTRAINT PK_television_show PRIMARY KEY (television_show_id)
 );
 
 -- genres
@@ -29,10 +45,43 @@ CREATE TABLE genres (
 	CONSTRAINT PK_genre PRIMARY KEY (genre_id)
 );
 
+-- people
+CREATE TABLE people (
+    person_id SERIAL,
+    name VARCHAR(200) NOT NULL,
+    CONSTRAINT PK_person PRIMARY KEY (person_id)
+);
+
 -- movie genres (JOIN TABLE)
 CREATE TABLE movie_genres (
-	movie_id INT NOT NULL REFERENCES movie(movie_id),
-	genre_id INT NOT NULL REFERENCES genres(genre_id)
+	movie_id INT NOT NULL REFERENCES movies(movie_id),
+	genre_id INT NOT NULL REFERENCES genres(genre_id),
+	CONSTRAINT PK_movie_genres PRIMARY KEY (movie_id, genre_id)
+);
+
+-- television show genres (JOIN TABLE)
+CREATE TABLE television_show_genres (
+    television_show_id INT NOT NULL REFERENCES television_shows(television_show_id),
+    genre_id INT NOT NULL REFERENCES genres(genre_id),
+    CONSTRAINT PK_television_show_genres PRIMARY KEY (television_show_id, genre_id)
+);
+
+-- movie credits
+CREATE TABLE movie_credits (
+    movie_id INT NOT NULL REFERENCES movies(movie_id),
+    person_id INT NOT NULL REFERENCES people(person_id),
+    credit_role VARCHAR(50) NOT NULL,
+    character_name VARCHAR(200),
+    CONSTRAINT PK_movie_credits PRIMARY KEY (movie_id, person_id, credit_role)
+);
+
+-- television show credits
+CREATE TABLE television_show_credits (
+    television_show_id INT NOT NULL REFERENCES television_shows(television_show_id),
+    person_id INT NOT NULL REFERENCES people(person_id),
+    credit_role VARCHAR(50) NOT NULL,
+    character_name VARCHAR(200),
+    CONSTRAINT PK_tv_credits PRIMARY KEY (television_show_id, person_id, credit_role)
 );
 
 --users (name is pluralized because 'user' is a SQL keyword)
@@ -47,14 +96,13 @@ CREATE TABLE users (
 	state_code CHAR(2) NOT NULL,
 	zip_code VARCHAR(5) NOT NULL,
 	rating INT CHECK (rating BETWEEN 1 AND 5),
-	CONSTRAINT FK_users_state FOREIGN KEY (state_code)
-    REFERENCES state_sales_tax_rates(state_code),
 	CONSTRAINT PK_user PRIMARY KEY (user_id)
 );
 
 -- *************************************************************************************************
 -- Insert some sample starting data
 -- *************************************************************************************************
-INSERT INTO
+
+--INSERT INTO
 
 COMMIT TRANSACTION;
