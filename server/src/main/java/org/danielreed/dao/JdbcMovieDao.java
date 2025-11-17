@@ -8,6 +8,7 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,7 +59,7 @@ public class JdbcMovieDao implements MovieDao {
     }
 
     @Override
-    public List<Movie> getMoviesByReleaseDate(String releaseDate) {
+    public List<Movie> getMoviesByReleaseDate(LocalDate releaseDate) {
 
         List<Movie> movies = new ArrayList<>();
         String sql = "SELECT movie_id, title, release_date, overview, poster_path " +
@@ -80,7 +81,7 @@ public class JdbcMovieDao implements MovieDao {
         Movie movie = new Movie();
         movie.setMovieId(rowSet.getInt("movie_id"));
         movie.setTitle(rowSet.getString("title"));
-        movie.setReleaseDate(rowSet.getString("release_date"));
+        movie.setReleaseDate(rowSet.getDate("release_date").toLocalDate());
         movie.setOverview(rowSet.getString("overview"));
         movie.setPosterPath(rowSet.getString("poster_path"));
         return movie;

@@ -26,11 +26,12 @@ public class JdbcGenreDao implements GenreDao {
     public List<Genre> getGenresByMovie(String name) {
 
         List<Genre> genres = new ArrayList<>();
-        String sql = "SELECT g.name " +
+        String sql = "SELECT g.genre_id, g.name " +
                      "FROM movies m " +
                      "JOIN movie_genres mg ON m.movie_id = mg.movie_id " +
                      "JOIN genres g ON mg.genre_id = g.genre_id " +
-                     "WHERE m.title = ?;";
+                     "WHERE m.title = ? " +
+                     "ORDER BY g.genre_id;";
         try {
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql, name);
             while (results.next()) {
@@ -47,11 +48,12 @@ public class JdbcGenreDao implements GenreDao {
     public List<Genre> getGenresByTelevisionShow(String name) {
 
         List<Genre> genres = new ArrayList<>();
-        String sql = "SELECT g.name " +
+        String sql = "SELECT g.genre_id, g.name " +
                      "FROM television_shows tv " +
                      "JOIN television_show_genres tvg ON tvg.television_show_id = tv.television_show_id " +
                      "JOIN genres g ON tvg.genre_id = g.genre_id " +
-                     "WHERE tv.title = ?;";
+                     "WHERE tv.title = ? " +
+                     "ORDER BY g.genre_id;";
         try {
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql, name);
             while (results.next()) {

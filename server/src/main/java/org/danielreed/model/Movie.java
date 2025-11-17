@@ -1,16 +1,18 @@
 package org.danielreed.model;
 
+import java.time.LocalDate;
+
 public class Movie {
 
     private int movieId;
     private String title;
-    private String releaseDate;
+    private LocalDate releaseDate;
     private String overview;
     private String posterPath;
 
     public Movie() { }
 
-    public Movie(int movieId, String title, String releaseDate, String overview, String posterPath) {
+    public Movie(int movieId, String title, LocalDate releaseDate, String overview, String posterPath) {
         this.movieId = movieId;
         this.title = title;
         this.releaseDate = releaseDate;
@@ -34,11 +36,11 @@ public class Movie {
         this.title = title;
     }
 
-    public String getReleaseDate() {
+    public LocalDate getReleaseDate() {
         return releaseDate;
     }
 
-    public void setReleaseDate(String releaseDate) {
+    public void setReleaseDate(LocalDate releaseDate) {
         this.releaseDate = releaseDate;
     }
 
