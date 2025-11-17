@@ -24,7 +24,8 @@ public class JdbcPersonDao implements PersonDao {
     public List<Person> getAllPeople() {
 
         List<Person> people = new ArrayList<>();
-        String sql = "";
+        String sql = "SELECT person_id, name " +
+                     "FROM people;";
         try {
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
             while (results.next()) {
@@ -41,7 +42,9 @@ public class JdbcPersonDao implements PersonDao {
     public Person getPersonById(int personId) {
 
         Person person = null;
-        String sql = "";
+        String sql = "SELECT person_id, name " +
+                     "FROM people " +
+                     "WHERE person_id = ?;";
         try {
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql, personId);
             if (results.next()) {
