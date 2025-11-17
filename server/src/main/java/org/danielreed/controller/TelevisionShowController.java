@@ -7,6 +7,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -31,7 +32,7 @@ public class TelevisionShowController {
     @RequestMapping(path = "/{title}", method = RequestMethod.GET)
     public TelevisionShow getTelevisionShowByTitle(@PathVariable String title) {
 
-        TelevisionShow televisionShow = televisionShowDao.getTelevisionShowsByTitle(title);
+        TelevisionShow televisionShow = televisionShowDao.getTelevisionShowByTitle(title);
         if (televisionShow == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Movie not found");
         }
@@ -41,7 +42,7 @@ public class TelevisionShowController {
 
     @PreAuthorize("permitAll")
     @RequestMapping(path = "/{release_date}", method = RequestMethod.GET)
-    public List<TelevisionShow> getTelevisionShowsByReleaseDate(@PathVariable String releaseDate) {
+    public List<TelevisionShow> getTelevisionShowsByReleaseDate(@PathVariable LocalDate releaseDate) {
         return televisionShowDao.getTelevisionShowsByReleaseDate(releaseDate);
     }
 }

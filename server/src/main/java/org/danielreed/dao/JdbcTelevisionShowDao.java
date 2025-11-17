@@ -8,6 +8,7 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,7 +40,7 @@ public class JdbcTelevisionShowDao implements TelevisionShowDao {
     }
 
     @Override
-    public TelevisionShow getTelevisionShowsByTitle(String title) {
+    public TelevisionShow getTelevisionShowByTitle(String title) {
 
         TelevisionShow televisionShow = null;
         String sql = "SELECT television_show_id, title, release_date, overview, poster_path " +
@@ -58,7 +59,7 @@ public class JdbcTelevisionShowDao implements TelevisionShowDao {
     }
 
     @Override
-    public List<TelevisionShow> getTelevisionShowsByReleaseDate(String releaseDate) {
+    public List<TelevisionShow> getTelevisionShowsByReleaseDate(LocalDate releaseDate) {
 
         List<TelevisionShow> televisionShows = new ArrayList<>();
         String sql = "SELECT television_show_id, title, release_date, overview, poster_path " +
@@ -80,7 +81,7 @@ public class JdbcTelevisionShowDao implements TelevisionShowDao {
         TelevisionShow televisionShow = new TelevisionShow();
         televisionShow.setTelevisionShowId(rowSet.getInt("television_show_id"));
         televisionShow.setTitle(rowSet.getString("title"));
-        televisionShow.setReleaseDate(rowSet.getString("release_date"));
+        televisionShow.setReleaseDate(rowSet.getDate("release_date").toLocalDate());
         televisionShow.setOverview(rowSet.getString("overview"));
         televisionShow.setPosterPath(rowSet.getString("poster_path"));
         return televisionShow;

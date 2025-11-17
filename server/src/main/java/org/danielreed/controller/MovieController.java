@@ -7,6 +7,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -41,7 +42,7 @@ public class MovieController {
 
     @PreAuthorize("permitAll")
     @RequestMapping(path = "/{release_date}", method = RequestMethod.GET)
-    public List<Movie> getMoviesByReleaseDate(@PathVariable String releaseDate) {
+    public List<Movie> getMoviesByReleaseDate(@PathVariable LocalDate releaseDate) {
         return movieDao.getMoviesByReleaseDate(releaseDate);
     }
 }
