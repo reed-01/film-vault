@@ -39,15 +39,11 @@ INSERT INTO television_show_genres (television_show_id, genre_id) VALUES (2, 2);
 
 -- movie credits
 INSERT INTO movie_credits (movie_id, person_id, credit_role, character_name) VALUES (1, 1, 'role1', 'character1');
-INSERT INTO movie_credits (movie_id, person_id, credit_role, character_name) VALUES (2, 2, 'role2', 'character2');
-INSERT INTO movie_credits (movie_id, person_id, credit_role, character_name) VALUES (3, 3, 'role3', 'character3');
-INSERT INTO movie_credits (movie_id, person_id, credit_role, character_name) VALUES (4, 4, 'role4', 'character4');
+INSERT INTO movie_credits (movie_id, person_id, credit_role, character_name) VALUES (1, 2, 'role2', 'character2');
 
 -- television show credits
 INSERT INTO television_show_credits (television_show_id, person_id, credit_role, character_name) VALUES (1, 1, 'role1', 'character1');
-INSERT INTO television_show_credits (television_show_id, person_id, credit_role, character_name) VALUES (2, 2, 'role2', 'character2');
-INSERT INTO television_show_credits (television_show_id, person_id, credit_role, character_name) VALUES (3, 3, 'role3', 'character3');
-INSERT INTO television_show_credits (television_show_id, person_id, credit_role, character_name) VALUES (4, 4, 'role4', 'character4');
+INSERT INTO television_show_credits (television_show_id, person_id, credit_role, character_name) VALUES (1, 2, 'role2', 'character2');
 
 -- users
 INSERT INTO users (username, password_hash, role, name, address, city, state_code, zip_code) VALUES ('user1', 'user1', 'ROLE_USER', 'User One', '123 Test Street', 'Testville', 'NY', '12345');

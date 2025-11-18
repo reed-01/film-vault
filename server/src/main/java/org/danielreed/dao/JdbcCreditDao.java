@@ -25,11 +25,12 @@ public class JdbcCreditDao implements CreditDao {
     public List<Credit> getCreditsForMovie(int movieId) {
 
         List<Credit> credits = new ArrayList<>();
-        String sql = "SELECT mc.credit_role, p.name, mc.character_name " +
+        String sql = "SELECT mc.movie_id, mc.person_id, mc.credit_role, p.name, mc.character_name " +
                      "FROM movie_credits mc " +
                      "JOIN people p ON mc.person_id = p.person_id " +
                      "JOIN movies m ON mc.movie_id = m.movie_id " +
-                     "WHERE m.title = ?;";
+                     "WHERE mc.movie_id = ? " +
+                     "ORDER BY mc.person_id;";
         try {
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql, movieId);
             while (results.next()) {
@@ -46,11 +47,12 @@ public class JdbcCreditDao implements CreditDao {
     public List<Credit> getCreditsForTelevisionShow(int televisionShowId) {
 
         List<Credit> credits = new ArrayList<>();
-        String sql = "SELECT tsc.credit_role, p.name, tsc.character_name " +
+        String sql = "SELECT tsc.television_show_id, tsc.person_id, tsc.credit_role, p.name, tsc.character_name " +
                      "FROM television_show_credits tsc " +
                      "JOIN people p ON tsc.person_id = p.person_id " +
                      "JOIN television_shows ts ON tsc.television_show_id = ts.television_show_id " +
-                     "WHERE ts.title = ?;";
+                     "WHERE tsc.television_show_id = ? " +
+                     "ORDER BY tsc.person_id;";
         try {
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql, televisionShowId);
             while (results.next()) {
