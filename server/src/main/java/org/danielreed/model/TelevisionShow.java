@@ -1,13 +1,20 @@
 package org.danielreed.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.time.LocalDate;
 
 public class TelevisionShow {
 
+    @JsonProperty("id")
     private int televisionShowId;
+    @JsonProperty("name")
     private String title;
+    @JsonProperty("release_date")
     private LocalDate releaseDate;
+    @JsonProperty("overview")
     private String overview;
+    @JsonProperty("poster_path")
     private String posterPath;
 
     public TelevisionShow() { }
@@ -58,5 +65,16 @@ public class TelevisionShow {
 
     public void setPosterPath(String posterPath) {
         this.posterPath = posterPath;
+    }
+
+    @Override
+    public String toString() {
+        return "TelevisionShow{" +
+                "televisionShowId=" + televisionShowId +
+                ", title='" + title + '\'' +
+                ", releaseDate=" + releaseDate +
+                ", overview='" + overview + '\'' +
+                ", posterPath='" + posterPath + '\'' +
+                '}';
     }
 }

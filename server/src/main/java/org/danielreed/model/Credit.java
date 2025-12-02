@@ -1,10 +1,16 @@
 package org.danielreed.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Credit {
 
+    @JsonProperty("id")
     private int personId;
+    @JsonProperty("name")
     private String name;
+    @JsonProperty("job")
     private String creditRole;
+    @JsonProperty("character")
     private String characterName;
 
     public Credit() { }
@@ -46,5 +52,15 @@ public class Credit {
 
     public void setCharacterName(String characterName) {
         this.characterName = characterName;
+    }
+
+    @Override
+    public String toString() {
+        return "Credit{" +
+                "personId=" + personId +
+                ", name='" + name + '\'' +
+                ", creditRole='" + creditRole + '\'' +
+                ", characterName='" + characterName + '\'' +
+                '}';
     }
 }
