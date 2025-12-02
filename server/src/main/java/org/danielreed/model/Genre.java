@@ -1,8 +1,12 @@
 package org.danielreed.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Genre {
 
+    @JsonProperty("id")
     private int genreId;
+    @JsonProperty("name")
     private String name;
 
     public Genre() { }
@@ -26,5 +30,13 @@ public class Genre {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "Genre{" +
+                "genreId=" + genreId +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

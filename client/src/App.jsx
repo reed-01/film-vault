@@ -8,7 +8,7 @@ import LogoutView from "./views/LogoutView";
 import RegisterView from "./views/RegisterView/RegisterView";
 
 import HomeView from "./views/HomeView/HomeView";
-import SingleMovieView from "./views/SingleMovieView/SingleMovieView";
+import SingleFilmView from "./views/SingleFilmView/SingleFilmView";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 export default function App() {
@@ -21,7 +21,7 @@ export default function App() {
         <main>
           <Routes>
             <Route path="/" element={<HomeView />} />
-            <Route path="/movies/id" element={<SingleMovieView />} />
+            <Route path="/movies/id" element={<SingleFilmView />} />
             <Route
               path="/collection"
               element={
