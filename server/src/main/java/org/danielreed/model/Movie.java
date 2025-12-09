@@ -6,32 +6,60 @@ import java.time.LocalDate;
 
 public class Movie {
 
-    @JsonProperty("id")
-    private int movieId;
-    @JsonProperty("title")
+    @JsonProperty("imdbID")
+    private String movieId;
+
+    @JsonProperty("Title")
     private String title;
-    @JsonProperty("release_date")
+
+    @JsonProperty("Year")
+    private int releaseYear;
+
+    @JsonProperty("Rated")
+    private String rated;
+
+    @JsonProperty("Released")
     private LocalDate releaseDate;
-    @JsonProperty("overview")
-    private String overview;
-    @JsonProperty("poster_path")
-    private String posterPath;
+
+    @JsonProperty("Runtime")
+    private int runtime;
+
+    @JsonProperty("Plot")
+    private String plot;
+
+    @JsonProperty("Language")
+    private String language;
+
+    @JsonProperty("Country")
+    private String country;
+
+    @JsonProperty("Awards")
+    private String awards;
+
+    @JsonProperty("Poster")
+    private String poster;
 
     public Movie() { }
 
-    public Movie(int movieId, String title, LocalDate releaseDate, String overview, String posterPath) {
+    public Movie(String movieId, String title, int releaseYear, String rated, LocalDate releaseDate, int runtime, String plot, String language, String country, String awards, String poster) {
         this.movieId = movieId;
         this.title = title;
+        this.releaseYear = releaseYear;
+        this.rated = rated;
         this.releaseDate = releaseDate;
-        this.overview = overview;
-        this.posterPath = posterPath;
+        this.runtime = runtime;
+        this.plot = plot;
+        this.language = language;
+        this.country = country;
+        this.awards = awards;
+        this.poster = poster;
     }
 
-    public int getMovieId() {
+    public String getMovieId() {
         return movieId;
     }
 
-    public void setMovieId(int movieId) {
+    public void setMovieId(String movieId) {
         this.movieId = movieId;
     }
 
@@ -43,6 +71,22 @@ public class Movie {
         this.title = title;
     }
 
+    public int getReleaseYear() {
+        return releaseYear;
+    }
+
+    public void setReleaseYear(int releaseYear) {
+        this.releaseYear = releaseYear;
+    }
+
+    public String getRated() {
+        return rated;
+    }
+
+    public void setRated(String rated) {
+        this.rated = rated;
+    }
+
     public LocalDate getReleaseDate() {
         return releaseDate;
     }
@@ -51,30 +95,68 @@ public class Movie {
         this.releaseDate = releaseDate;
     }
 
-    public String getOverview() {
-        return overview;
+    public int getRuntime() {
+        return runtime;
     }
 
-    public void setOverview(String overview) {
-        this.overview = overview;
+    public void setRuntime(int runtime) {
+        this.runtime = runtime;
     }
 
-    public String getPosterPath() {
-        return posterPath;
+    public String getPlot() {
+        return plot;
     }
 
-    public void setPosterPath(String posterPath) {
-        this.posterPath = posterPath;
+    public void setPlot(String plot) {
+        this.plot = plot;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getAwards() {
+        return awards;
+    }
+
+    public void setAwards(String awards) {
+        this.awards = awards;
+    }
+
+    public String getPoster() {
+        return poster;
+    }
+
+    public void setPoster(String poster) {
+        this.poster = poster;
     }
 
     @Override
     public String toString() {
         return "Movie{" +
-                "movieId=" + movieId +
+                "movieId='" + movieId + '\'' +
                 ", title='" + title + '\'' +
+                ", releaseYear=" + releaseYear +
+                ", rated='" + rated + '\'' +
                 ", releaseDate=" + releaseDate +
-                ", overview='" + overview + '\'' +
-                ", posterPath='" + posterPath + '\'' +
+                ", runtime=" + runtime +
+                ", plot='" + plot + '\'' +
+                ", language='" + language + '\'' +
+                ", country='" + country + '\'' +
+                ", awards='" + awards + '\'' +
+                ", poster='" + poster + '\'' +
                 '}';
     }
 }
