@@ -22,28 +22,10 @@ public class JdbcMovieDao implements MovieDao {
     }
 
     @Override
-    public List<Movie> getAllMovies() {
-
-        List<Movie> movies = new ArrayList<>();
-        String sql = "SELECT movie_id, title, release_date, overview, poster_path " +
-                     "FROM movies;";
-        try {
-            SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
-            while (results.next()) {
-                movies.add(mapRowToMovie(results));
-            }
-        } catch (CannotGetJdbcConnectionException e) {
-            throw new DaoException("Unable to connect to server or database", e);
-        }
-
-        return movies;
-    }
-
-    @Override
     public Movie getMovieByTitle(String title) {
 
         Movie movie = null;
-        String sql = "SELECT movie_id, title, release_date, overview, poster_path " +
+        String sql = "SELECT imdb_id, title, release_year, rated, release_date, runtime, plot, language, country, awards, poster " +
                      "FROM movies " +
                      "WHERE title = ?;";
         try {
@@ -62,7 +44,7 @@ public class JdbcMovieDao implements MovieDao {
     public List<Movie> getMoviesByReleaseDate(LocalDate releaseDate) {
 
         List<Movie> movies = new ArrayList<>();
-        String sql = "SELECT movie_id, title, release_date, overview, poster_path " +
+        String sql = "SELECT imdb_id, title, release_year, rated, release_date, runtime, plot, language, country, awards, poster " +
                      "FROM movies " +
                      "WHERE release_date = ?;";
         try {
@@ -77,13 +59,42 @@ public class JdbcMovieDao implements MovieDao {
         return movies;
     }
 
+    @Override
+    public List<Movie> getMoviesByYear(String releaseYear) {
+
+        List<Movie> movies = new ArrayList<>();
+        String sql = "SELECT imdb_id, title, release_year, rated, release_date, runtime, plot, language, country, awards, poster " +
+                     "FROM movies " +
+                     "WHERE release_year = ?;";
+        try {
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, releaseYear);
+            while (results.next()) {
+                movies.add(mapRowToMovie(results));
+            }
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        }
+
+        return movies;
+    }
+
     private Movie mapRowToMovie(SqlRowSet rowSet) {
         Movie movie = new Movie();
-        movie.setMovieId(rowSet.getInt("movie_id"));
+        movie.setMovieId(rowSet.getString("imdb_id"));
         movie.setTitle(rowSet.getString("title"));
-        movie.setReleaseDate(rowSet.getDate("release_date").toLocalDate());
-        movie.setOverview(rowSet.getString("overview"));
-        movie.setPosterPath(rowSet.getString("poster_path"));
+        movie.setReleaseYear(rowSet.getInt("release_year"));
+        movie.setRated(rowSet.getString("rated"));
+
+        if (rowSet.getDate("release_date") != null) {
+            movie.setReleaseDate(rowSet.getDate("release_date").toLocalDate());
+        }
+
+        movie.setRuntime(rowSet.getInt("runtime"));
+        movie.setPlot(rowSet.getString("plot"));
+        movie.setLanguage(rowSet.getString("language"));
+        movie.setCountry(rowSet.getString("country"));
+        movie.setAwards(rowSet.getString("awards"));
+        movie.setPoster(rowSet.getString("poster"));
         return movie;
     }
 }

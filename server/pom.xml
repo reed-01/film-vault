@@ -89,6 +89,11 @@
             <artifactId>jjwt-jackson</artifactId>
             <version>${jjwt.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-common</artifactId>
+            <version>2.2.0</version>
+        </dependency>
     </dependencies>
 
     <!-- 4. Boot plugin (the parent already brings it, but leaving it is fine) -->

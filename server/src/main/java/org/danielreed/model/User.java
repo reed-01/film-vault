@@ -2,48 +2,34 @@ package org.danielreed.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
-/**
- * Model class representing an application user.
- *
- * Contains information about the user - their id, username, address information,
- * password (hashed) and authorities (user roles).
- */
 public class User {
 
     private int id;
     private String username;
     @JsonIgnore
-    private String hashedPassword;
-    private String role;
-    private String name;
-    private String address;
-    private String city;
-    private String stateCode;
-    private String zipCode;
+    private String password;
+    @JsonIgnore
+    private boolean activated;
+    private Set<Authority> authorities = new HashSet<>();
 
     public User() { }
 
-    public User(int id, String username, String hashedPassword, String role, String name, String address, String city, String stateCode, String zipCode) {
+    public User(int id, String username, String password, String authorities) {
         this.id = id;
         this.username = username;
-        this.hashedPassword = hashedPassword;
-        this.role = role;
-        this.name = name;
-        this.address = address;
-        this.city = city;
-        this.stateCode = stateCode;
-        this.zipCode = zipCode;
-    }
-
-    public User(String username, String hashedPassword, String role, String name, String address, String city, String stateCode, String zipCode) {
-        this(0, username, hashedPassword, role, name, address, city, stateCode, zipCode);
+        this.password = password;
+        if (authorities != null) this.setAuthorities(authorities);
+        this.activated = true;
     }
 
     public int getId() {
         return id;
     }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -51,59 +37,41 @@ public class User {
     public String getUsername() {
         return username;
     }
+
     public void setUsername(String username) {
         this.username = username;
     }
 
-    public String getHashedPassword() {
-        return hashedPassword;
-    }
-    public void setHashedPassword(String hashedPassword) {
-        this.hashedPassword = hashedPassword;
+    public String getPassword() {
+        return password;
     }
 
-    public String getRole() {
-        return role;
-    }
-    public void setRole(String role) {
-        this.role = role != null && !role.startsWith("ROLE_")
-                ? "ROLE_" + role.toUpperCase()
-                : role;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public String getName() {
-        return name;
-    }
-    public void setName(String name) {
-        this.name = name;
+    public boolean isActivated() {
+        return activated;
     }
 
-    public String getAddress() {
-        return address;
-    }
-    public void setAddress(String address) {
-        this.address = address;
+    public void setActivated(boolean activated) {
+        this.activated = activated;
     }
 
-    public String getCity() {
-        return city;
-    }
-    public void setCity(String city) {
-        this.city = city;
+    public Set<Authority> getAuthorities() {
+        return authorities;
     }
 
-    public String getStateCode() {
-        return stateCode;
-    }
-    public void setStateCode(String stateCode) {
-        this.stateCode = stateCode;
+    public void setAuthorities(Set<Authority> authorities) {
+        this.authorities = authorities;
     }
 
-    public String getZipCode() {
-        return zipCode;
-    }
-    public void setZipCode(String zipCode) {
-        this.zipCode = zipCode;
+    public void setAuthorities(String authorities) {
+        String[] roles = authorities.split(",");
+        for (String role : roles) {
+            String authority = role.contains("ROLE_") ? role : "ROLE_" + role;
+            this.authorities.add(new Authority(authority));
+        }
     }
 
     @Override
@@ -112,19 +80,15 @@ public class User {
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
         return id == user.id &&
+                activated == user.activated &&
                 Objects.equals(username, user.username) &&
-                Objects.equals(hashedPassword, user.hashedPassword) &&
-                Objects.equals(role, user.role) &&
-                Objects.equals(name, user.name) &&
-                Objects.equals(address, user.address) &&
-                Objects.equals(city, user.city) &&
-                Objects.equals(stateCode, user.stateCode) &&
-                Objects.equals(zipCode, user.zipCode);
+                Objects.equals(password, user.password) &&
+                Objects.equals(authorities, user.authorities);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, hashedPassword, role, name, address, city, stateCode, zipCode);
+        return Objects.hash(id, username, password, activated, authorities);
     }
 
     @Override
@@ -132,13 +96,8 @@ public class User {
         return "User{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
-                ", hashedPassword='" + hashedPassword + '\'' +
-                ", role='" + role + '\'' +
-                ", name='" + name + '\'' +
-                ", address='" + address + '\'' +
-                ", city='" + city + '\'' +
-                ", stateCode='" + stateCode + '\'' +
-                ", zipCode='" + zipCode + '\'' +
+                ", activated=" + activated +
+                ", authorities=" + authorities +
                 '}';
     }
 }

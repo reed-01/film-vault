@@ -1,27 +1,24 @@
 package org.danielreed.controller;
 
-import org.danielreed.model.LoginDto;
-import org.danielreed.model.LoginResponseDto;
-import org.danielreed.model.RegisterUserDto;
-import org.danielreed.model.User;
 import jakarta.validation.Valid;
 
 import org.danielreed.exception.DaoException;
+import org.danielreed.model.*;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
-import org.danielreed.dao.UserDao;
-import org.danielreed.security.jwt.TokenProvider;
 import org.springframework.web.server.ResponseStatusException;
 
-/**
- * AuthenticationController is a class used for handling requests to authenticate Users.
- *
- * It depends on an instance of a UserDao for retrieving and storing user data. This is provided
- * through dependency injection.
- */
+import org.danielreed.dao.UserDao;
+import org.danielreed.security.jwt.JWTFilter;
+import org.danielreed.security.jwt.TokenProvider;
+
 @RestController
 @CrossOrigin
 public class AuthenticationController {
@@ -37,44 +34,40 @@ public class AuthenticationController {
     }
 
     @RequestMapping(path = "/login", method = RequestMethod.POST)
-    public LoginResponseDto login(@Valid @RequestBody LoginDto loginDto) {
+    public ResponseEntity<LoginResponseDto> login(@Valid @RequestBody LoginDto loginDto) {
+
+        UsernamePasswordAuthenticationToken authenticationToken =
+                new UsernamePasswordAuthenticationToken(loginDto.getUsername(), loginDto.getPassword());
+
+        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        String jwt = tokenProvider.createToken(authentication, false);
+
+        User user;
         try {
-            UsernamePasswordAuthenticationToken authenticationToken =
-                    new UsernamePasswordAuthenticationToken(loginDto.getUsername(), loginDto.getPassword());
-
-            Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
-
-            if(authentication.isAuthenticated()){
-                String jwt = tokenProvider.createToken(authentication, false);
-                User user = userDao.getUserByUsername(loginDto.getUsername());
-                return new LoginResponseDto(jwt, user);
-            }
-
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+            user = userDao.getUserByUsername(loginDto.getUsername());
+        } catch (DaoException e) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Username or password is incorrect.");
         }
-        catch (DaoException e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "DAO error - " + e.getMessage());
-        }
+
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add(JWTFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
+        return new ResponseEntity<>(new LoginResponseDto(jwt, user), httpHeaders, HttpStatus.OK);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(path = "/register", method = RequestMethod.POST)
-    public User register(@Valid @RequestBody RegisterUserDto newUser) {
-
-        if(!newUser.isPasswordsMatch()){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "password and confirm password do not match");
-        }
-
+    public void register(@Valid @RequestBody RegisterUserDto newUser) {
         try {
             if (userDao.getUserByUsername(newUser.getUsername()) != null) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User already exists.");
+            } else {
+                userDao.createUser(newUser);
             }
-
-            User user = userDao.createUser(new User(newUser.getUsername(), newUser.getPassword(), newUser.getRole(), newUser.getName(), newUser.getAddress(), newUser.getCity(), newUser.getStateCode(), newUser.getZipCode()));
-            return user;
         }
         catch (DaoException e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "DAO error - " + e.getMessage());
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "User registration failed.");
         }
     }
+
 }
