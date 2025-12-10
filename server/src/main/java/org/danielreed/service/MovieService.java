@@ -15,7 +15,7 @@ public class MovieService {
 
     public Movie getMovieByTitle(String title) {
 
-        String url = "https://www.omdbapi.com/?t=" + title + "&apikey=" + apiKey;
+        String url = "http://www.omdbapi.com/?t=" + title + "&apikey=" + apiKey;
 
         restClient = RestClient.create(url);
 

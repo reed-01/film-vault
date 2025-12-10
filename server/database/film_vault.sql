@@ -14,6 +14,7 @@ DROP TABLE IF EXISTS users CASCADE;
 -- movies
 CREATE TABLE movies (
 	imdb_id VARCHAR(64) UNIQUE NOT NULL,
+	type VARCHAR(16),
 	title VARCHAR(255) NOT NULL,
 	release_year INT,
 	rated VARCHAR(10),
@@ -25,6 +26,23 @@ CREATE TABLE movies (
 	awards VARCHAR(512),
 	poster TEXT,
 	CONSTRAINT PK_movie PRIMARY KEY(imdb_id)
+);
+
+-- television shows
+CREATE TABLE television_shows (
+	imdb_id VARCHAR(64) UNIQUE NOT NULL,
+	type VARCHAR(16),
+	title VARCHAR(255) NOT NULL,
+	release_year INT,
+	rated VARCHAR(10),
+	release_date DATE,
+	runtime INT,
+	plot TEXT,
+	language VARCHAR(128),
+	country VARCHAR(128),
+	awards VARCHAR(512),
+	poster TEXT,
+	CONSTRAINT PK_television_show PRIMARY KEY(imdb_id)
 );
 
 -- --users (name is pluralized because 'user' is a SQL keyword)

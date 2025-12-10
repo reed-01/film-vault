@@ -8,7 +8,6 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +24,8 @@ public class JdbcMovieDao implements MovieDao {
     public Movie getMovieByTitle(String title) {
 
         Movie movie = null;
-        String sql = "SELECT imdb_id, title, release_year, rated, release_date, runtime, plot, language, country, awards, poster " +
+
+        String sql = "SELECT imdb_id, type, title, release_year, rated, release_date, runtime, plot, language, country, awards, poster " +
                      "FROM movies " +
                      "WHERE title = ?;";
         try {
@@ -41,10 +41,11 @@ public class JdbcMovieDao implements MovieDao {
     }
 
     @Override
-    public List<Movie> getMoviesByReleaseDate(LocalDate releaseDate) {
+    public List<Movie> getMoviesByReleaseDate(String releaseDate) {
 
         List<Movie> movies = new ArrayList<>();
-        String sql = "SELECT imdb_id, title, release_year, rated, release_date, runtime, plot, language, country, awards, poster " +
+
+        String sql = "SELECT imdb_id, type, title, release_year, rated, release_date, runtime, plot, language, country, awards, poster " +
                      "FROM movies " +
                      "WHERE release_date = ?;";
         try {
@@ -63,7 +64,8 @@ public class JdbcMovieDao implements MovieDao {
     public List<Movie> getMoviesByYear(String releaseYear) {
 
         List<Movie> movies = new ArrayList<>();
-        String sql = "SELECT imdb_id, title, release_year, rated, release_date, runtime, plot, language, country, awards, poster " +
+
+        String sql = "SELECT imdb_id, type, title, release_year, rated, release_date, runtime, plot, language, country, awards, poster " +
                      "FROM movies " +
                      "WHERE release_year = ?;";
         try {
@@ -79,22 +81,22 @@ public class JdbcMovieDao implements MovieDao {
     }
 
     private Movie mapRowToMovie(SqlRowSet rowSet) {
+
         Movie movie = new Movie();
+
         movie.setMovieId(rowSet.getString("imdb_id"));
+        movie.setType(rowSet.getString("type"));
         movie.setTitle(rowSet.getString("title"));
-        movie.setReleaseYear(rowSet.getInt("release_year"));
+        movie.setReleaseYear(rowSet.getString("release_year"));
         movie.setRated(rowSet.getString("rated"));
-
-        if (rowSet.getDate("release_date") != null) {
-            movie.setReleaseDate(rowSet.getDate("release_date").toLocalDate());
-        }
-
-        movie.setRuntime(rowSet.getInt("runtime"));
+        movie.setReleaseDate(rowSet.getDate("release_date").toLocalDate());
+        movie.setRuntime(rowSet.getString("runtime"));
         movie.setPlot(rowSet.getString("plot"));
         movie.setLanguage(rowSet.getString("language"));
         movie.setCountry(rowSet.getString("country"));
         movie.setAwards(rowSet.getString("awards"));
         movie.setPoster(rowSet.getString("poster"));
+
         return movie;
     }
 }
