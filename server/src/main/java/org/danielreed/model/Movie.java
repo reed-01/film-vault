@@ -9,6 +9,9 @@ public class Movie {
     @JsonProperty("imdbID")
     private String movieId;
 
+    @JsonProperty("Type")
+    private String type;
+
     @JsonProperty("Title")
     private String title;
 
@@ -22,7 +25,7 @@ public class Movie {
     private LocalDate releaseDate;
 
     @JsonProperty("Runtime")
-    private int runtime;
+    private String runtime;
 
     @JsonProperty("Plot")
     private String plot;
@@ -41,8 +44,9 @@ public class Movie {
 
     public Movie() { }
 
-    public Movie(String movieId, String title, int releaseYear, String rated, LocalDate releaseDate, int runtime, String plot, String language, String country, String awards, String poster) {
+    public Movie(String movieId, String type, String title, String releaseYear, String rated, String releaseDate, String runtime, String plot, String language, String country, String awards, String poster) {
         this.movieId = movieId;
+        this.type = type;
         this.title = title;
         this.releaseYear = releaseYear;
         this.rated = rated;
@@ -63,6 +67,14 @@ public class Movie {
         this.movieId = movieId;
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
     public String getTitle() {
         return title;
     }
@@ -71,11 +83,11 @@ public class Movie {
         this.title = title;
     }
 
-    public int getReleaseYear() {
+    public String getReleaseYear() {
         return releaseYear;
     }
 
-    public void setReleaseYear(int releaseYear) {
+    public void setReleaseYear(String releaseYear) {
         this.releaseYear = releaseYear;
     }
 
@@ -87,19 +99,19 @@ public class Movie {
         this.rated = rated;
     }
 
-    public LocalDate getReleaseDate() {
+    public String getReleaseDate() {
         return releaseDate;
     }
 
-    public void setReleaseDate(LocalDate releaseDate) {
+    public void setReleaseDate(String releaseDate) {
         this.releaseDate = releaseDate;
     }
 
-    public int getRuntime() {
+    public String getRuntime() {
         return runtime;
     }
 
-    public void setRuntime(int runtime) {
+    public void setRuntime(String runtime) {
         this.runtime = runtime;
     }
 
@@ -147,11 +159,12 @@ public class Movie {
     public String toString() {
         return "Movie{" +
                 "movieId='" + movieId + '\'' +
+                ", type='" + type + '\'' +
                 ", title='" + title + '\'' +
-                ", releaseYear=" + releaseYear +
+                ", releaseYear='" + releaseYear + '\'' +
                 ", rated='" + rated + '\'' +
-                ", releaseDate=" + releaseDate +
-                ", runtime=" + runtime +
+                ", releaseDate='" + releaseDate + '\'' +
+                ", runtime='" + runtime + '\'' +
                 ", plot='" + plot + '\'' +
                 ", language='" + language + '\'' +
                 ", country='" + country + '\'' +

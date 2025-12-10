@@ -9,7 +9,7 @@ public interface MovieDao {
 
     Movie getMovieByTitle(String title);
 
-    List<Movie> getMoviesByReleaseDate(LocalDate releaseDate);
+    List<Movie> getMoviesByReleaseDate(String releaseDate);
 
     List<Movie> getMoviesByYear(String releaseYear);
 }

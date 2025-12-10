@@ -26,6 +26,4 @@ public class MovieController {
     public Movie getMovieByTitle(@RequestParam String title) {
         return movieService.getMovieByTitle(title);
     }
-
-
 }

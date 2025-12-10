@@ -1,48 +1,29 @@
 package org.danielreed.controller;
 
 import org.danielreed.dao.TelevisionShowDao;
+import org.danielreed.dao.UserDao;
 import org.danielreed.model.TelevisionShow;
-import org.springframework.http.HttpStatus;
+import org.danielreed.service.TelevisionShowService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
-
-import java.time.LocalDate;
-import java.util.List;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/television_shows")
 @PreAuthorize("isAuthenticated()")
 public class TelevisionShowController {
 
     private final TelevisionShowDao televisionShowDao;
+    private UserDao userDao;
+    private TelevisionShowService televisionShowService;
 
-    public TelevisionShowController(TelevisionShowDao televisionShowDao) {
+    public TelevisionShowController(TelevisionShowDao televisionShowDao, UserDao userDao, TelevisionShowService televisionShowService) {
         this.televisionShowDao = televisionShowDao;
+        this.userDao = userDao;
+        this.televisionShowService = televisionShowService;
     }
 
-    @PreAuthorize("permitAll")
-    @RequestMapping(path = "", method = RequestMethod.GET)
-    public List<TelevisionShow> getAllTelevisionShows() {
-        return televisionShowDao.getAllTelevisionShows();
-    }
-
-    @PreAuthorize("permitAll")
-    @RequestMapping(path = "/{title}", method = RequestMethod.GET)
-    public TelevisionShow getTelevisionShowByTitle(@PathVariable String title) {
-
-        TelevisionShow televisionShow = televisionShowDao.getTelevisionShowByTitle(title);
-        if (televisionShow == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Movie not found");
-        }
-
-        return televisionShow;
-    }
-
-    @PreAuthorize("permitAll")
-    @RequestMapping(path = "/{release_date}", method = RequestMethod.GET)
-    public List<TelevisionShow> getTelevisionShowsByReleaseDate(@PathVariable LocalDate releaseDate) {
-        return televisionShowDao.getTelevisionShowsByReleaseDate(releaseDate);
+    @GetMapping("/tv")
+    public TelevisionShow getTelevisionShowByTitle(@RequestParam String title) {
+        return televisionShowService.getTelevisionShowByTitle(title);
     }
 }
