@@ -2,14 +2,13 @@ package org.danielreed.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-
-public class TelevisionShow {
+public class Film {
 
     @JsonProperty("imdbID")
-    private String televisionShowId;
+    private String filmId;
 
     @JsonProperty("Type")
-    private String type;
+    private String filmType;
 
     @JsonProperty("Title")
     private String title;
@@ -41,11 +40,11 @@ public class TelevisionShow {
     @JsonProperty("Poster")
     private String poster;
 
-    public TelevisionShow() { }
+    public Film() { }
 
-    public TelevisionShow(String televisionShowId, String type, String title, String releaseYear, String rated, String releaseDate, String runtime, String plot, String language, String country, String awards, String poster) {
-        this.televisionShowId = televisionShowId;
-        this.type = type;
+    public Film (String filmId, String filmType, String title, String releaseYear, String rated, String releaseDate, String runtime, String plot, String language, String country, String awards, String poster) {
+        this.filmId = filmId;
+        this.filmType = filmType;
         this.title = title;
         this.releaseYear = releaseYear;
         this.rated = rated;
@@ -58,20 +57,20 @@ public class TelevisionShow {
         this.poster = poster;
     }
 
-    public String getTelevisionShowId() {
-        return televisionShowId;
+    public String getFilmId() {
+        return filmId;
     }
 
-    public void setTelevisionShowId(String televisionShowId) {
-        this.televisionShowId = televisionShowId;
+    public void setFilmId(String filmId) {
+        this.filmId = filmId;
     }
 
-    public String getType() {
-        return type;
+    public String getFilmType() {
+        return filmType;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setFilmType(String filmType) {
+        this.filmType = filmType;
     }
 
     public String getTitle() {
@@ -156,9 +155,9 @@ public class TelevisionShow {
 
     @Override
     public String toString() {
-        return "TelevisionShow{" +
-                "televisionShowId='" + televisionShowId + '\'' +
-                ", type='" + type + '\'' +
+        return "Film{" +
+                "filmId='" + filmId + '\'' +
+                ", filmType='" + filmType + '\'' +
                 ", title='" + title + '\'' +
                 ", releaseYear='" + releaseYear + '\'' +
                 ", rated='" + rated + '\'' +

@@ -1,25 +1,25 @@
--- -- database film_vault
+-- database film_vault
 BEGIN TRANSACTION;
 
--- -- *************************************************************************************************
--- -- Drop all db objects in the proper order
--- -- *************************************************************************************************
-DROP TABLE IF EXISTS movies CASCADE;
+-- *************************************************************************************************
+-- Drop all db objects in the proper order
+-- *************************************************************************************************
+DROP TABLE IF EXISTS films CASCADE;
 DROP TABLE IF EXISTS users CASCADE;
 
--- -- *************************************************************************************************
--- -- Create the tables and constraints
--- -- *************************************************************************************************
+-- *************************************************************************************************
+-- Create the tables and constraints
+-- *************************************************************************************************
 
--- movies
-CREATE TABLE movies (
+-- films
+CREATE TABLE films (
 	imdb_id VARCHAR(64) UNIQUE NOT NULL,
-	type VARCHAR(16),
+	film_type VARCHAR(16) NOT NULL,
 	title VARCHAR(255) NOT NULL,
-	release_year INT,
+	release_year VARCHAR(10),
 	rated VARCHAR(10),
-	release_date DATE,
-	runtime INT,
+	release_date VARCHAR(32) ,
+	runtime VARCHAR(10),
 	plot TEXT,
 	language VARCHAR(128),
 	country VARCHAR(128),
@@ -28,24 +28,7 @@ CREATE TABLE movies (
 	CONSTRAINT PK_movie PRIMARY KEY(imdb_id)
 );
 
--- television shows
-CREATE TABLE television_shows (
-	imdb_id VARCHAR(64) UNIQUE NOT NULL,
-	type VARCHAR(16),
-	title VARCHAR(255) NOT NULL,
-	release_year INT,
-	rated VARCHAR(10),
-	release_date DATE,
-	runtime INT,
-	plot TEXT,
-	language VARCHAR(128),
-	country VARCHAR(128),
-	awards VARCHAR(512),
-	poster TEXT,
-	CONSTRAINT PK_television_show PRIMARY KEY(imdb_id)
-);
-
--- --users (name is pluralized because 'user' is a SQL keyword)
+-- users (name is pluralized because 'user' is a SQL keyword)
 CREATE TABLE users (
 	user_id SERIAL,
 	username VARCHAR(50) NOT NULL UNIQUE,
@@ -62,10 +45,7 @@ CREATE TABLE users (
 -- -- *************************************************************************************************
 -- DROP TABLE IF EXISTS movie_credits CASCADE;
 -- DROP TABLE IF EXISTS television_show_credits CASCADE;
--- DROP TABLE IF EXISTS movie_genres CASCADE;
--- DROP TABLE IF EXISTS television_show_genres CASCADE;
 -- DROP TABLE IF EXISTS movies CASCADE;
--- DROP TABLE IF EXISTS television_shows CASCADE;
 -- DROP TABLE IF EXISTS genres CASCADE;
 -- DROP TABLE IF EXISTS people CASCADE;
 -- DROP TABLE IF EXISTS users CASCADE;
@@ -73,18 +53,6 @@ CREATE TABLE users (
 -- -- *************************************************************************************************
 -- -- Create the tables and constraints
 -- -- *************************************************************************************************
-
-
-
--- -- television shows
--- CREATE TABLE television_shows (
---     television_show_id SERIAL,
---     title VARCHAR(300) NOT NULL,
---     release_date DATE,
---     overview TEXT,
---     poster_path VARCHAR(500),
---     CONSTRAINT PK_television_show PRIMARY KEY (television_show_id)
--- );
 
 -- -- genres
 -- CREATE TABLE genres (
