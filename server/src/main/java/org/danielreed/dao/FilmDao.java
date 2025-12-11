@@ -2,11 +2,8 @@ package org.danielreed.dao;
 
 import org.danielreed.model.Film;
 
-import java.util.List;
-
 public interface FilmDao {
 
+    // As an unauthenticated user, they can search for a film by title.
     Film getFilmByTitle(String title);
-
-    List<Film> getFilmsByYear(String releaseYear);
 }

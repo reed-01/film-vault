@@ -25,6 +25,15 @@ public class Film {
     @JsonProperty("Runtime")
     private String runtime;
 
+    @JsonProperty("Genre")
+    private String genre;
+
+    @JsonProperty("Director")
+    private String director;
+
+    @JsonProperty("Actors")
+    private String actors;
+
     @JsonProperty("Plot")
     private String plot;
 
@@ -40,9 +49,12 @@ public class Film {
     @JsonProperty("Poster")
     private String poster;
 
+    @JsonProperty("imdbRating")
+    private String imdbRating;
+
     public Film() { }
 
-    public Film (String filmId, String filmType, String title, String releaseYear, String rated, String releaseDate, String runtime, String plot, String language, String country, String awards, String poster) {
+    public Film(String filmId, String filmType, String title, String releaseYear, String rated, String releaseDate, String runtime, String genre, String director, String actors, String plot, String language, String country, String awards, String poster, String imdbRating) {
         this.filmId = filmId;
         this.filmType = filmType;
         this.title = title;
@@ -50,11 +62,15 @@ public class Film {
         this.rated = rated;
         this.releaseDate = releaseDate;
         this.runtime = runtime;
+        this.genre = genre;
+        this.director = director;
+        this.actors = actors;
         this.plot = plot;
         this.language = language;
         this.country = country;
         this.awards = awards;
         this.poster = poster;
+        this.imdbRating = imdbRating;
     }
 
     public String getFilmId() {
@@ -113,6 +129,30 @@ public class Film {
         this.runtime = runtime;
     }
 
+    public String getGenre() {
+        return genre;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
+    }
+
+    public String getDirector() {
+        return director;
+    }
+
+    public void setDirector(String director) {
+        this.director = director;
+    }
+
+    public String getActors() {
+        return actors;
+    }
+
+    public void setActors(String actors) {
+        this.actors = actors;
+    }
+
     public String getPlot() {
         return plot;
     }
@@ -153,6 +193,14 @@ public class Film {
         this.poster = poster;
     }
 
+    public String getImdbRating() {
+        return imdbRating;
+    }
+
+    public void setImdbRating(String imdbRating) {
+        this.imdbRating = imdbRating;
+    }
+
     @Override
     public String toString() {
         return "Film{" +
@@ -163,11 +211,15 @@ public class Film {
                 ", rated='" + rated + '\'' +
                 ", releaseDate='" + releaseDate + '\'' +
                 ", runtime='" + runtime + '\'' +
+                ", genre='" + genre + '\'' +
+                ", director='" + director + '\'' +
+                ", actors='" + actors + '\'' +
                 ", plot='" + plot + '\'' +
                 ", language='" + language + '\'' +
                 ", country='" + country + '\'' +
                 ", awards='" + awards + '\'' +
                 ", poster='" + poster + '\'' +
+                ", imdbRating='" + imdbRating + '\'' +
                 '}';
     }
 }

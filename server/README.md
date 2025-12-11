@@ -4,16 +4,18 @@
 -- The purpose of this application is as follows:
 
 
-1.) As an unauthenticated user, they can search for a film by title.
+1.) As an unauthenticated user, they can SEARCH for a film by TITLE.
+2.) As an unauthenticated user, they can REGISTER an account and LOGIN.
 
-2.) The user can register an account and login as an authenticated user.
+3.) As an authenticated user, they can SAVE a specific film to a collection.
+4.) As an authenticated user, they can REMOVE a specific film from their collection.
 
-3.) As an authenticated user, they can save a specific film to a collection.
-4.) As an authenticated user, they can search in their collection for a list of films by RELEASE YEAR.
-5.) As an authenticated user, they can search in their collection for a list of films by GENRE.
-6.) As an authenticated user, they can search in their collection for a list of films by ACTOR.
-7.) As an authenticated user, they can search in their collection for a list of films by DIRECTOR.
-8.) As an authenticated user, they can leave a review of the application.
+5.) As an authenticated user, they can SEARCH in their collection for a list of films by RELEASE YEAR.
+6.) As an authenticated user, they can SEARCH in their collection for a list of films by GENRE.
+7.) As an authenticated user, they can SEARCH in their collection for a list of films by ACTOR.
+8.) As an authenticated user, they can SEARCH in their collection for a list of films by DIRECTOR.
+
+9.) As an authenticated user, they can leave a review of the application.
 
 
 POTENTIAL FUTURE UPDATES

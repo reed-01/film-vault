@@ -10,26 +10,16 @@ import java.util.List;
 
 @RestController
 @CrossOrigin
-@PreAuthorize("isAuthenticated()")
 public class FilmController {
 
-    private final FilmDao filmDao;
-    private UserDao userDao;
     private FilmService filmService;
 
-    public FilmController(FilmDao filmDao, UserDao userDao, FilmService filmService) {
-        this.filmDao = filmDao;
-        this.userDao = userDao;
+    public FilmController(FilmService filmService) {
         this.filmService = filmService;
     }
 
     @GetMapping("/film")
     public Film getFilmByTitle(@RequestParam String title) {
         return filmService.getFilmByTitle(title);
-    }
-
-    @GetMapping("/film/year")
-    public List<Film> getFilmsByYear(@RequestParam String releaseYear) {
-        return filmDao.getFilmsByYear(releaseYear);
     }
 }
