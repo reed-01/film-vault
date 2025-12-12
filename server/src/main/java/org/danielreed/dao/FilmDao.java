@@ -4,6 +4,6 @@ import org.danielreed.model.Film;
 
 public interface FilmDao {
 
-    // As an unauthenticated user, they can search for a film by title.
+    // An unauthenticated user can GET a film by TITLE.
     Film getFilmByTitle(String title);
 }
