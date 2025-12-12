@@ -1,12 +1,8 @@
 package org.danielreed.controller;
 
-import org.danielreed.dao.FilmDao;
-import org.danielreed.dao.UserDao;
 import org.danielreed.model.Film;
 import org.danielreed.service.FilmService;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
 
 @RestController
 @CrossOrigin

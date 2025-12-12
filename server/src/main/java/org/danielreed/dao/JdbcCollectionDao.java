@@ -6,8 +6,12 @@ import org.danielreed.model.Film;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.rowset.SqlRowSet;
 
 import javax.sql.DataSource;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class JdbcCollectionDao implements CollectionDao {
 
@@ -21,20 +25,38 @@ public class JdbcCollectionDao implements CollectionDao {
     @Override
     public Film saveFilmToCollection(Film film, int userId) {
 
-        String filmSql = "INSERT INTO films " +
-                     "(imdb_id, film_type, title, release_year, rated, release_date, runtime, " +
-                     "genre, director, actors, plot, language, country, awards, poster, imdb_rating)" +
-                     "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
-        try {
-            jdbcTemplate.update(filmSql, film.getFilmId(), film.getFilmType(), film.getTitle(), film.getReleaseYear(),
-                    film.getRated(), film.getReleaseDate(), film.getRuntime(), film.getGenre(), film.getDirector(),
-                    film.getActors(), film.getPlot(), film.getLanguage(), film.getCountry(),
-                    film.getAwards(), film.getPoster(), film.getImdbRating());
+        /* imdb_id is the primary key for films, so we first check for its
+           existence to allow multiple users to save the same film.
+           The user_films join table enforces one film per user and throws
+           an error if a user tries to save the same film twice. */
 
-            String userFilmSql = "INSERT INTO user_films " +
+        String checkFilmSql = "SELECT imdb_id " +
+                              "FROM films " +
+                              "WHERE imdb_id = ?;";
+
+        String insertFilmSql = "INSERT INTO films " +
+                               "(imdb_id, film_type, title, release_year, rated, release_date, runtime, " +
+                               "genre, director, actors, plot, language, country, awards, poster, imdb_rating) " +
+                               "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+
+        String insertUserFilmSql = "INSERT INTO user_films " +
                                    "(user_id, imdb_id) " +
                                    "VALUES (?, ?);";
-            jdbcTemplate.update(userFilmSql, userId, film.getFilmId());
+
+        try {
+            // 1.) check if film already exists
+            SqlRowSet filmExistsResults = jdbcTemplate.queryForRowSet(checkFilmSql, film.getFilmId());
+
+            // 2.) if the film does NOT exist, insert it
+            if (!filmExistsResults.next()) {
+                jdbcTemplate.update(insertFilmSql, film.getFilmId(), film.getFilmType(), film.getTitle(), film.getReleaseYear(),
+                        film.getRated(), film.getReleaseDate(), film.getRuntime(), film.getGenre(), film.getDirector(),
+                        film.getActors(), film.getPlot(), film.getLanguage(), film.getCountry(),
+                        film.getAwards(), film.getPoster(), film.getImdbRating());
+            }
+
+            // 3.) link film to user collection
+            jdbcTemplate.update(insertUserFilmSql, userId, film.getFilmId());
 
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
@@ -62,13 +84,169 @@ public class JdbcCollectionDao implements CollectionDao {
         return numberOfRows;
     }
 
-    // As an authenticated user, they can SEARCH in their collection for a list of films by RELEASE YEAR.
+    // As an authenticated user, in their collection they can GET a list of films by TYPE.
+    public List<Film> getCollectionFilmsByType(String filmType, int userId) {
 
-    // As an authenticated user, they can SEARCH in their collection for a list of films by GENRE.
+        List<Film> filmList = new ArrayList<>();
 
-    // As an authenticated user, they can SEARCH in their collection for a list of films by ACTOR.
+        String sql = "SELECT f.imdb_id, f.film_type, f.title, f.release_year, f.rated, f.release_date, f.runtime, " +
+                     "f.genre, f.director, f.actors, f.plot, f.language, f.country, f.awards, f.poster, f.imdb_rating " +
+                     "FROM films f " +
+                     "JOIN user_films uf ON f.imdb_id = uf.imdb_id " +
+                     "WHERE f.film_type = ? AND uf.user_id = ?;";
+        try {
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, filmType, userId);
 
-    // As an authenticated user, they can SEARCH in their collection for a list of films by DIRECTOR.
+            while (results.next()) {
+                filmList.add(mapRowToFilm(results));
+            }
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        }
 
+        return filmList;
+    }
 
+    // As an authenticated user, in their collection they can GET a list of films by GENRE.
+    public List<Film> getCollectionFilmsByGenre(String genre, int userId) {
+
+        List<Film> filmList = new ArrayList<>();
+
+        String sql = "SELECT f.imdb_id, f.film_type, f.title, f.release_year, f.rated, f.release_date, f.runtime, " +
+                     "f.genre, f.director, f.actors, f.plot, f.language, f.country, f.awards, f.poster, f.imdb_rating " +
+                     "FROM films f " +
+                     "JOIN user_films uf ON f.imdb_id = uf.imdb_id " +
+                     "WHERE f.genre ILIKE ? AND uf.user_id = ?;";
+        try {
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, "%" + genre + "%", userId);
+
+            while (results.next()) {
+                filmList.add(mapRowToFilm(results));
+            }
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        }
+
+        return filmList;
+    }
+
+    // As an authenticated user, in their collection they can GET a list of films by RATED.
+    public List<Film> getCollectionFilmsByRated(String rated, int userId) {
+
+        List<Film> filmList = new ArrayList<>();
+
+        String sql = "SELECT f.imdb_id, f.film_type, f.title, f.release_year, f.rated, f.release_date, f.runtime, " +
+                     "f.genre, f.director, f.actors, f.plot, f.language, f.country, f.awards, f.poster, f.imdb_rating " +
+                     "FROM films f " +
+                     "JOIN user_films uf ON f.imdb_id = uf.imdb_id " +
+                     "WHERE f.rated = ? AND uf.user_id = ?;";
+        try {
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, rated, userId);
+
+            while (results.next()) {
+                filmList.add(mapRowToFilm(results));
+            }
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        }
+
+        return filmList;
+    }
+
+    // As an authenticated user, in their collection they can GET a list of films by RELEASE YEAR.
+    public List<Film> getCollectionFilmsByReleaseYear(String releaseYear, int userId) {
+
+        List<Film> filmList = new ArrayList<>();
+
+        String sql = "SELECT f.imdb_id, f.film_type, f.title, f.release_year, f.rated, f.release_date, f.runtime, " +
+                     "f.genre, f.director, f.actors, f.plot, f.language, f.country, f.awards, f.poster, f.imdb_rating " +
+                     "FROM films f " +
+                     "JOIN user_films uf ON f.imdb_id = uf.imdb_id " +
+                     "WHERE f.release_year = ? AND uf.user_id = ?;";
+        try {
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, releaseYear, userId);
+
+            while (results.next()) {
+                filmList.add(mapRowToFilm(results));
+            }
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        }
+
+        return filmList;
+    }
+
+    // As an authenticated user, in their collection they can GET a list of films by ACTOR.
+    public List<Film> getCollectionFilmsByActors(String actors, int userId) {
+
+        List<Film> filmList = new ArrayList<>();
+
+        String sql = "SELECT f.imdb_id, f.film_type, f.title, f.release_year, f.rated, f.release_date, f.runtime, " +
+                     "f.genre, f.director, f.actors, f.plot, f.language, f.country, f.awards, f.poster, f.imdb_rating " +
+                     "FROM films f " +
+                     "JOIN user_films uf ON f.imdb_id = uf.imdb_id " +
+                     "WHERE f.actors ILIKE ? AND uf.user_id = ?;";
+        try {
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, "%" + actors + "%", userId);
+
+            while (results.next()) {
+                filmList.add(mapRowToFilm(results));
+            }
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        }
+
+        return filmList;
+    }
+
+    // As an authenticated user, in their collection they can GET a list of films by DIRECTOR.
+    public List<Film> getCollectionFilmsByDirector(String director, int userId) {
+
+        List<Film> filmList = new ArrayList<>();
+
+        String sql = "SELECT f.imdb_id, f.film_type, f.title, f.release_year, f.rated, f.release_date, f.runtime, " +
+                     "f.genre, f.director, f.actors, f.plot, f.language, f.country, f.awards, f.poster, f.imdb_rating " +
+                     "FROM films f " +
+                     "JOIN user_films uf ON f.imdb_id = uf.imdb_id " +
+                     "WHERE f.director ILIKE ? AND uf.user_id = ?;";
+        try {
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, "%" + director + "%", userId);
+
+            while (results.next()) {
+                filmList.add(mapRowToFilm(results));
+            }
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        }
+
+        return filmList;
+    }
+
+    private Film mapRowToFilm (SqlRowSet rowSet) {
+
+        Film film = new Film();
+
+        film.setFilmId(rowSet.getString("imdb_id"));
+        film.setFilmType(rowSet.getString("film_type"));
+        film.setTitle(rowSet.getString("title"));
+        film.setReleaseYear(rowSet.getString("release_year"));
+        film.setRated(rowSet.getString("rated"));
+
+        if (rowSet.getString("release_date") != null) {
+            film.setReleaseDate(rowSet.getString("release_date"));
+        }
+
+        film.setRuntime(rowSet.getString("runtime"));
+        film.setGenre(rowSet.getString("genre"));
+        film.setDirector(rowSet.getString("director"));
+        film.setActors(rowSet.getString("actors"));
+        film.setPlot(rowSet.getString("plot"));
+        film.setLanguage(rowSet.getString("language"));
+        film.setCountry(rowSet.getString("country"));
+        film.setAwards(rowSet.getString("awards"));
+        film.setPoster(rowSet.getString("poster"));
+        film.setImdbRating(rowSet.getString("imdb_rating"));
+
+        return film;
+    }
 }
