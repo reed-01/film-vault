@@ -7,12 +7,14 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
+import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class JdbcCollectionDao implements CollectionDao {
 
     private final JdbcTemplate jdbcTemplate;
@@ -21,7 +23,6 @@ public class JdbcCollectionDao implements CollectionDao {
         jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    // As an authenticated user, they can SAVE a specific film to a collection.
     @Override
     public Film saveFilmToCollection(Film film, int userId) {
 
@@ -67,7 +68,29 @@ public class JdbcCollectionDao implements CollectionDao {
         return film;
     }
 
-    // As an authenticated user, they can REMOVE a specific film from their collection.
+    @Override
+    public List<Film> getCollectionByUserId(int userId) {
+
+        List<Film> films = new ArrayList<>();
+
+        String sql = "SELECT f.imdb_id, f.film_type, f.title, f.release_year, f.rated, f.release_date, f.runtime, " +
+                     "f.genre, f.director, f.actors, f.plot, f.language, f.country, f.awards, f.poster, f.imdb_rating " +
+                     "FROM films f " +
+                     "JOIN user_films uf ON f.imdb_id = uf.imdb_id " +
+                     "WHERE uf.user_id = ?;";
+        try {
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId);
+
+            while (results.next()) {
+                films.add(mapRowToFilm(results));
+            }
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        }
+
+        return films;
+    }
+
     @Override
     public int deleteFilmFromCollection(int userId, String filmId) {
 
@@ -84,10 +107,10 @@ public class JdbcCollectionDao implements CollectionDao {
         return numberOfRows;
     }
 
-    // As an authenticated user, in their collection they can GET a list of films by TYPE.
+    @Override
     public List<Film> getCollectionFilmsByType(String filmType, int userId) {
 
-        List<Film> filmList = new ArrayList<>();
+        List<Film> films = new ArrayList<>();
 
         String sql = "SELECT f.imdb_id, f.film_type, f.title, f.release_year, f.rated, f.release_date, f.runtime, " +
                      "f.genre, f.director, f.actors, f.plot, f.language, f.country, f.awards, f.poster, f.imdb_rating " +
@@ -98,19 +121,19 @@ public class JdbcCollectionDao implements CollectionDao {
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql, filmType, userId);
 
             while (results.next()) {
-                filmList.add(mapRowToFilm(results));
+                films.add(mapRowToFilm(results));
             }
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
         }
 
-        return filmList;
+        return films;
     }
 
-    // As an authenticated user, in their collection they can GET a list of films by GENRE.
+    @Override
     public List<Film> getCollectionFilmsByGenre(String genre, int userId) {
 
-        List<Film> filmList = new ArrayList<>();
+        List<Film> films = new ArrayList<>();
 
         String sql = "SELECT f.imdb_id, f.film_type, f.title, f.release_year, f.rated, f.release_date, f.runtime, " +
                      "f.genre, f.director, f.actors, f.plot, f.language, f.country, f.awards, f.poster, f.imdb_rating " +
@@ -121,19 +144,19 @@ public class JdbcCollectionDao implements CollectionDao {
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql, "%" + genre + "%", userId);
 
             while (results.next()) {
-                filmList.add(mapRowToFilm(results));
+                films.add(mapRowToFilm(results));
             }
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
         }
 
-        return filmList;
+        return films;
     }
 
-    // As an authenticated user, in their collection they can GET a list of films by RATED.
+    @Override
     public List<Film> getCollectionFilmsByRated(String rated, int userId) {
 
-        List<Film> filmList = new ArrayList<>();
+        List<Film> films = new ArrayList<>();
 
         String sql = "SELECT f.imdb_id, f.film_type, f.title, f.release_year, f.rated, f.release_date, f.runtime, " +
                      "f.genre, f.director, f.actors, f.plot, f.language, f.country, f.awards, f.poster, f.imdb_rating " +
@@ -144,19 +167,19 @@ public class JdbcCollectionDao implements CollectionDao {
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql, rated, userId);
 
             while (results.next()) {
-                filmList.add(mapRowToFilm(results));
+                films.add(mapRowToFilm(results));
             }
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
         }
 
-        return filmList;
+        return films;
     }
 
-    // As an authenticated user, in their collection they can GET a list of films by RELEASE YEAR.
+    @Override
     public List<Film> getCollectionFilmsByReleaseYear(String releaseYear, int userId) {
 
-        List<Film> filmList = new ArrayList<>();
+        List<Film> films = new ArrayList<>();
 
         String sql = "SELECT f.imdb_id, f.film_type, f.title, f.release_year, f.rated, f.release_date, f.runtime, " +
                      "f.genre, f.director, f.actors, f.plot, f.language, f.country, f.awards, f.poster, f.imdb_rating " +
@@ -167,19 +190,19 @@ public class JdbcCollectionDao implements CollectionDao {
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql, releaseYear, userId);
 
             while (results.next()) {
-                filmList.add(mapRowToFilm(results));
+                films.add(mapRowToFilm(results));
             }
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
         }
 
-        return filmList;
+        return films;
     }
 
-    // As an authenticated user, in their collection they can GET a list of films by ACTOR.
-    public List<Film> getCollectionFilmsByActors(String actors, int userId) {
+    @Override
+    public List<Film> getCollectionFilmsByActor(String actors, int userId) {
 
-        List<Film> filmList = new ArrayList<>();
+        List<Film> films = new ArrayList<>();
 
         String sql = "SELECT f.imdb_id, f.film_type, f.title, f.release_year, f.rated, f.release_date, f.runtime, " +
                      "f.genre, f.director, f.actors, f.plot, f.language, f.country, f.awards, f.poster, f.imdb_rating " +
@@ -190,19 +213,19 @@ public class JdbcCollectionDao implements CollectionDao {
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql, "%" + actors + "%", userId);
 
             while (results.next()) {
-                filmList.add(mapRowToFilm(results));
+                films.add(mapRowToFilm(results));
             }
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
         }
 
-        return filmList;
+        return films;
     }
 
-    // As an authenticated user, in their collection they can GET a list of films by DIRECTOR.
+    @Override
     public List<Film> getCollectionFilmsByDirector(String director, int userId) {
 
-        List<Film> filmList = new ArrayList<>();
+        List<Film> films = new ArrayList<>();
 
         String sql = "SELECT f.imdb_id, f.film_type, f.title, f.release_year, f.rated, f.release_date, f.runtime, " +
                      "f.genre, f.director, f.actors, f.plot, f.language, f.country, f.awards, f.poster, f.imdb_rating " +
@@ -213,13 +236,13 @@ public class JdbcCollectionDao implements CollectionDao {
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql, "%" + director + "%", userId);
 
             while (results.next()) {
-                filmList.add(mapRowToFilm(results));
+                films.add(mapRowToFilm(results));
             }
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
         }
 
-        return filmList;
+        return films;
     }
 
     private Film mapRowToFilm (SqlRowSet rowSet) {

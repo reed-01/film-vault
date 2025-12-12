@@ -6,27 +6,30 @@ import java.util.List;
 
 public interface CollectionDao {
 
-    // As an authenticated user, they can SAVE a specific film to a collection.
+    // An authenticated user can POST a film to a collection.
     public Film saveFilmToCollection(Film film, int userId);
 
-    // As an authenticated user, they can REMOVE a specific film from their collection.
+    // An authenticated user can GET a list of their film collection.
+    public List<Film> getCollectionByUserId(int userId);
+
+    // An authenticated user can DELETE a film from their collection.
     public int deleteFilmFromCollection(int userId, String filmId);
 
-    // As an authenticated user, in their collection they can GET a list of films by TYPE.
+    // An authenticated user can GET a list of films in their collection by TYPE.
     public List<Film> getCollectionFilmsByType(String filmType, int userId);
 
-    // As an authenticated user, in their collection they can GET a list of films by GENRE.
+    // An authenticated user can GET a list of films in their collection by GENRE.
     public List<Film> getCollectionFilmsByGenre(String genre, int userId);
 
-    // As an authenticated user, in their collection they can GET a list of films by RATED.
+    // An authenticated user can GET a list of films in their collection by RATED.
     public List<Film> getCollectionFilmsByRated(String rated, int userId);
 
-    // As an authenticated user, in their collection they can GET a list of films by RELEASE YEAR.
+    // An authenticated user can GET a list of films in their collection by RELEASE YEAR.
     public List<Film> getCollectionFilmsByReleaseYear(String releaseYear, int userId);
 
-    // As an authenticated user, in their collection they can GET a list of films by ACTOR.
-    public List<Film> getCollectionFilmsByActors(String actors, int userId);
+    // An authenticated user can GET a list of films in their collection by ACTOR.
+    public List<Film> getCollectionFilmsByActor(String actors, int userId);
 
-    // As an authenticated user, in their collection they can GET a list of films by DIRECTOR.
+    // An authenticated user can GET a list of films in their collection by DIRECTOR.
     public List<Film> getCollectionFilmsByDirector(String director, int userId);
 }
