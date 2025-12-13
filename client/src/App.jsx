@@ -13,22 +13,22 @@ import ProtectedRoute from "./components/ProtectedRoute";
 
 export default function App() {
   return (
-    <div id="film-app">
       <BrowserRouter>
-        <Header />
-        <NavBar />
+        <div id="film-app">
+          <Header />
+          <NavBar />
 
-        <main>
-          <Routes>
-            <Route path="/" element={<HomeView />} />
-            <Route path="/film/id" element={<SingleFilmView />} />
-            <Route
-              path="/collection"
-              element={
-                <ProtectedRoute>
-                  <CollectionView />
-                </ProtectedRoute>
-              }
+          <main>
+            <Routes>
+              <Route path="/" element={<HomeView />} />
+              <Route path="/film/id" element={<SingleFilmView />} />
+              <Route
+                path="/collection"
+                element={
+                  <ProtectedRoute>
+                    <CollectionView />
+                  </ProtectedRoute>
+                }
             />
             <Route path="/login" element={<LoginView />} />
             <Route path="/logout" element={<LogoutView />} />
@@ -37,7 +37,7 @@ export default function App() {
         </main>
 
         <Footer />
+        </div>
       </BrowserRouter>
-    </div>
   );
 }
