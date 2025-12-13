@@ -1,16 +1,19 @@
-# React + Vite
+-- The Film Vault
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+-- A film is defined as either a movie or tv series.
 
-Currently, two official plugins are available:
+-- The purpose of this application is as follows:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+// An unauthenticated user can GET for a film by TITLE.
+// An unauthenticated user can REGISTER an account and LOGIN.
 
-## React Compiler
+// An authenticated user can POST a film to a collection.
+// An authenticated user can GET a list of their film collection.
+// An authenticated user can DELETE a film from their collection.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+// An authenticated user can GET a list of films in their collection by TYPE.
+// An authenticated user can GET a list of films in their collection by GENRE.
+// An authenticated user can GET a list of films in their collection by RATED.
+// An authenticated user can GET a list of films in their collection by RELEASE YEAR.
+// An authenticated user can GET a list of films in their collection by ACTOR.
+// An authenticated user can GET a list of films in their collection by DIRECTOR.
