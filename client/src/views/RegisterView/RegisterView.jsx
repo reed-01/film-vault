@@ -1,175 +1,99 @@
-import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
-import Notification from "../../components/Notification/Notification";
-import AuthService from "../../services/AuthService";
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import AuthService from '../../services/AuthService';
+import Notification from '../../components/Notification/Notification';
 
-import styles from "./RegisterView.module.css";
+import styles from './RegisterView.module.css';
 
 export default function RegisterView() {
   const navigate = useNavigate();
-  const [user, setUser] = useState({
-    username: "",
-    name: "",
-    password: "",
-    confirmPassword: "",
-    address: "",
-    city: "",
-    stateCode: "",
-    zipCode: "",
-    role: "user",
-  });
 
   const [notification, setNotification] = useState(null);
 
-  function handleChange(event) {
-    const { id, value } = event.target;
-    // Update the user state with the new value
-    setUser((prevUser) => ({
-      ...prevUser,
-      [id]: value,
-    }));
-  }
+  // Setup state for the registration data
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
 
   function handleSubmit(event) {
     event.preventDefault();
 
-    if (user.password !== user.confirmPassword) {
-      setNotification({
-        type: "error",
-        message: "Password & Confirm Password do not match",
-      });
-      return;
-    }
 
-    AuthService.register(user)
-      .then((response) => {
-        if (response.status === 201) {
-          setNotification({
-            type: "success",
-            message:
-              "Registration successful! Redirecting you to login page...",
-          });
-          setTimeout(() => {
-            navigate("/login");
-          }, 3000);
-        }
+    // Validate the form data
+    if (password !== confirmPassword) {
+      // Passwords don't match, so display error notification
+      setNotification({ type: 'error', message: 'Passwords do not match.' });
+    } else {
+      // If no errors, send data to server
+      AuthService.register({
+        username,
+        password,
+        confirmPassword,
+        role: 'user',
       })
-      .catch((error) => {
-        const response = error.response;
-        if (!response) {
-          setNotification({ type: "error", message: error.message });
-        } else if (response.status === 400) {
-          if (response.data.errors) {
-            let msg = "Validation error: ";
-            for (let err of response.data.errors) {
-              msg += `'${err.field}': ${err.defaultMessage}. `;
-            }
-            setNotification({ type: "error", message: msg });
-          } else {
-            setNotification({
-              type: "error",
-              message: `Registration failed: ${response.data.message}`,
-            });
-          }
-        } else {
-          setNotification({
-            type: "error",
-            message: `Registration failed: ${response.data.message}`,
-          });
-        }
-      });
+        .then(() => {
+          setNotification({ type: 'success', message: 'Registration successful! Redirecting you to login page...' });
+          setTimeout(() => {
+            navigate('/login');
+          }, 3000);
+        })
+        .catch((error) => {
+          // Check for a response message, but display a default if that doesn't exist
+          const message = error.response?.data?.message || 'Registration failed.';
+          setNotification({ type: 'error', message: message });
+        });
+    }
   }
 
   return (
-    <div id="register" className={styles.register}>
+    <div id="view-register">
+      <h2>Register</h2>
+
+      <Notification notification={notification} clearNotification={() => setNotification(null)} />
+
       <form onSubmit={handleSubmit}>
-        <h1>Create Account</h1>
-        <Notification
-          notification={notification}
-          clearNotification={() => setNotification(null)}
-        />
-        <div className={styles.registerForm}>
-          <label htmlFor="username">Username</label>
+        <div className="form-control">
+          <label htmlFor="username">Username:</label>
           <input
             type="text"
             id="username"
-            placeholder="Username"
-            value={user.username}
-            onChange={handleChange}
+            value={username}
+            size="50"
             required
             autoFocus
+            autoComplete="username"
+            onChange={(event) => setUsername(event.target.value)}
           />
-          <label htmlFor="name">Name</label>
-          <input
-            type="text"
-            id="name"
-            placeholder="Name"
-            value={user.name}
-            onChange={handleChange}
-            required
-          />
-          <label htmlFor="password">Password</label>
+        </div>
+
+        <div className="form-control">
+          <label htmlFor="password">Password:</label>
           <input
             type="password"
             id="password"
-            placeholder="Password"
-            value={user.password}
-            onChange={handleChange}
+            value={password}
+            size="50"
             required
+            onChange={(event) => setPassword(event.target.value)}
           />
-          <label htmlFor="confirmPassword">Confirm password</label>
+        </div>
+
+        <div className="form-control">
+          <label htmlFor="confirmPassword">Confirm Password:</label>
           <input
             type="password"
             id="confirmPassword"
-            placeholder="Confirm Password"
-            value={user.confirmPassword}
-            onChange={handleChange}
+            value={confirmPassword}
+            size="50"
             required
+            onChange={(event) => setConfirmPassword(event.target.value)}
           />
-          <label htmlFor="address">Address</label>
-          <input
-            type="text"
-            id="address"
-            placeholder="Address"
-            value={user.address}
-            onChange={handleChange}
-          />
-          <label htmlFor="city">City</label>
-          <input
-            type="text"
-            id="city"
-            placeholder="City"
-            value={user.city}
-            onChange={handleChange}
-          />
-          <label htmlFor="state">State</label>
-          <input
-            type="text"
-            id="stateCode"
-            placeholder="State"
-            value={user.stateCode}
-            onChange={handleChange}
-            maxLength="2"
-            required
-          />
-          <label htmlFor="zipCode">ZIP</label>
-          <input
-            type="number"
-            id="zipCode"
-            placeholder="ZIP"
-            value={user.zipCode}
-            onChange={handleChange}
-            required
-            minLength="5"
-            maxLength="5"
-          />
-          <div></div>
-          <div>
-            <button type="submit">Create Account</button>
-          </div>
         </div>
-        <hr />
-        Have an account? <Link to="/login">Sign in!</Link>
+
+        <button type="submit" className={`btn-primary ${styles.formButton}`}>
+          Register
+        </button>
+        <Link to="/login">Have an account? Log in</Link>
       </form>
     </div>
   );

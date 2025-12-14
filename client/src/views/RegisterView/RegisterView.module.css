@@ -1,11 +1,4 @@
-.register-form {
-  display: grid;
-  grid-template-columns: 150px 250px;
-  row-gap: 10px;
-  color: #f5f5f5;
-}
-
-.error {
-  color: #ffb4b4;
-  margin-bottom: 10px;
+.form-button {
+    margin-left: 165px;
+    margin-right: 15px;
 }

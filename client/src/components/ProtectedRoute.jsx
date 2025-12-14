@@ -1,8 +1,9 @@
-import { useContext } from "react";
-import { Navigate } from "react-router-dom";
-import { UserContext } from "../context/UserContext";
+import { Navigate } from 'react-router-dom';
+import { useContext } from 'react';
+import { UserContext } from '../context/UserContext';
 
 export default function ProtectedRoute({ children }) {
+
   // Get the user from the user context
   const { user } = useContext(UserContext);
 

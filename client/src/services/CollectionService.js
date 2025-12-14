@@ -6,10 +6,6 @@ export default {
     return axios.post(`/collection/${film}`);
   },
 
-  getCollectionByUserId(userId) {
-    return axios.get(`/collection/${userId}`);
-  },
-
   deleteFilmFromCollection(filmId) {
     return axios.delete(`/collection/${filmId}`);
   },
