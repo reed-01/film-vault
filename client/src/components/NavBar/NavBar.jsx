@@ -1,26 +1,39 @@
 import { useContext } from 'react';
-import { UserContext } from "../../context/UserContext"
-import { NavLink } from 'react-router-dom';
-
-import styles from './NavBar.module.css';
+import { Link, NavLink } from 'react-router-dom';
+import { UserContext } from '../../context/UserContext';
 
 export default function NavBar() {
 
-	const { user } = useContext(UserContext);
+  const { user } = useContext(UserContext);
 
-	return (
-		<nav>
-			<ul>
-				<li>
-					<NavLink to='/home'>Home</NavLink>
-				</li>
+  return (
+    <nav id="main-nav" className="nav-list">
 
-				<li>
-					<NavLink to='/collection'>Collection</NavLink>
-				</li>
+      <div className="nav-link">
+        <NavLink to="/">Home</NavLink>
+      </div>
 
-				
-			</ul>
-		</nav>
-	)
+      {user ? (
+        <>
+          <div className="nav-link">
+            <NavLink to="/collection/:userId">
+              Collection
+            </NavLink>
+          </div>
+          
+          <div className="nav-link">
+            <Link to="/logout">
+              Logout
+            </Link>
+          </div>
+        </>
+      ) : (
+        <div className="nav-link">
+          <NavLink to="/login">
+            Login
+          </NavLink>
+        </div>
+      )}
+    </nav>
+  );
 }
