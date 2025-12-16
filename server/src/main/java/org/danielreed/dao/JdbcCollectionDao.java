@@ -24,7 +24,7 @@ public class JdbcCollectionDao implements CollectionDao {
     }
 
     @Override
-    public Film saveFilmToCollection(Film film, int userId) {
+    public Film postFilmToCollection(Film film, int userId) {
 
         /* imdb_id is the primary key for films, so we first check for its
            existence to allow multiple users to save the same film.
@@ -89,22 +89,6 @@ public class JdbcCollectionDao implements CollectionDao {
         }
 
         return films;
-    }
-
-    @Override
-    public int deleteFilmFromCollection(int userId, String filmId) {
-
-        int numberOfRows = 0;
-
-        String deleteFilmSql = "DELETE FROM user_films WHERE user_id = ? AND imdb_id = ?;";
-
-        try {
-            numberOfRows= jdbcTemplate.update(deleteFilmSql, userId, filmId);
-        } catch (CannotGetJdbcConnectionException e) {
-            throw new DaoException("Unable to connect to server or database", e);
-        }
-
-        return numberOfRows;
     }
 
     @Override
@@ -243,6 +227,22 @@ public class JdbcCollectionDao implements CollectionDao {
         }
 
         return films;
+    }
+
+    @Override
+    public int deleteFilmFromCollection(int userId, String filmId) {
+
+        int numberOfRows = 0;
+
+        String deleteFilmSql = "DELETE FROM user_films WHERE user_id = ? AND imdb_id = ?;";
+
+        try {
+            numberOfRows= jdbcTemplate.update(deleteFilmSql, userId, filmId);
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        }
+
+        return numberOfRows;
     }
 
     private Film mapRowToFilm (SqlRowSet rowSet) {

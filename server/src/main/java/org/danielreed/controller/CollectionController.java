@@ -29,13 +29,13 @@ public class CollectionController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public Film saveFilmToCollection(@RequestBody Film film, Principal principal) {
+    public Film postFilmToCollection(@RequestBody Film film, Principal principal) {
 
         String userName = principal.getName();
         User user = userDao.getUserByUsername(userName);
         int userId = user.getId();
 
-        return collectionDao.saveFilmToCollection(film, userId);
+        return collectionDao.postFilmToCollection(film, userId);
     }
 
     @GetMapping
@@ -46,16 +46,6 @@ public class CollectionController {
         int userId = user.getId();
 
         return collectionDao.getCollectionByUserId(userId);
-    }
-
-    @DeleteMapping("/{filmId}")
-    public int deleteFilmFromCollection(@PathVariable String filmId, Principal principal) {
-
-        String userName = principal.getName();
-        User user = userDao.getUserByUsername(userName);
-        int userId = user.getId();
-
-        return collectionDao.deleteFilmFromCollection(userId, filmId);
     }
 
     @GetMapping("type/{filmType}")
@@ -116,5 +106,15 @@ public class CollectionController {
         int userId = user.getId();
 
         return collectionDao.getCollectionFilmsByDirector(director, userId);
+    }
+
+    @DeleteMapping("/{filmId}")
+    public int deleteFilmFromCollection(@PathVariable String filmId, Principal principal) {
+
+        String userName = principal.getName();
+        User user = userDao.getUserByUsername(userName);
+        int userId = user.getId();
+
+        return collectionDao.deleteFilmFromCollection(userId, filmId);
     }
 }
