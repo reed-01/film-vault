@@ -1,13 +1,12 @@
-import axios from "axios";
+import axios from 'axios';
 
 export default {
-
-  saveFilmToCollection(film) {
-    return axios.post(`/collection/${film}`);
+  getUserCollection(userId) {
+    return axios.get(`/collection/${userId}`);
   },
 
-  deleteFilmFromCollection(filmId) {
-    return axios.delete(`/collection/${filmId}`);
+  postFilmToCollection(film) {
+    return axios.post(`/collection/${film}`);
   },
 
   getCollectionFilmsByType(filmType) {
@@ -32,5 +31,9 @@ export default {
 
   getCollectonFilmsByDirector(director) {
     return axios.get(`collection/${director}`);
-  }
-}
+  },
+
+  deleteFilmFromCollection(filmId) {
+    return axios.delete(`/collection/${filmId}`);
+  },
+};
