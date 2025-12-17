@@ -18,11 +18,11 @@ export default function HomeView() {
 
   return (
     <>
-      <h1>Film Vault</h1>
+      <h1>Home</h1>
       <br />
 
-      <p>Welcome to the home page!</p>
-      <p>Find your favorite movie or series.</p>
+      <p>Welcome to the Film Vault!</p>
+      <p>Find your favorite films.</p>
       <br />
 
       <div>

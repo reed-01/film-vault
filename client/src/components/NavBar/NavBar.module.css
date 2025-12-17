@@ -1,0 +1,7 @@
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: solid 2px grey;
+  height: 56px;
+}
