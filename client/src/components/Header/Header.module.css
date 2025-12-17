@@ -1,0 +1,31 @@
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: solid 2px grey;
+}
+
+.leftHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.logo {
+  color: blue;
+  font-size: 3.5rem;
+}
+
+.title {
+  text-transform: capitalize;
+}
+
+.rightHeader {
+  display: flex;
+  align-items: center;
+  padding-right: 0.75rem;
+}
+
+.greeting {
+  text-transform: capitalize;
+}
