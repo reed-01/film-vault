@@ -1,7 +1,16 @@
-nav {
+.navBar {
+  border-bottom: solid 2px grey;
+}
+
+.navLinks {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: solid 2px grey;
-  height: 56px;
+  list-style: none;
+}
+
+.navLeft a,
+.navRight a {
+  text-decoration: none;
+  text-transform: uppercase;
 }
