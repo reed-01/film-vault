@@ -1,12 +1,8 @@
 * {
+  margin: 0;
+  padding: 0;
   scrollbar-width: thin;
   scrollbar-color: #555 #181818;
-}
-
-html,
-body {
-  height: 100%;
-  margin: 0;
 }
 
 body {
@@ -14,26 +10,5 @@ body {
   font-size: 14px;
   background-color: #181818;
   color: lightgrey;
-  overflow: hidden; /* page itself does not scroll */
-}
-
-/* app shell */
-#app {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
-/* header/nav/footer stay visible */
-header,
-nav,
-footer {
-  flex-shrink: 0;
-}
-
-/* ONLY main scrolls */
-#main-content {
-  flex: 1;
-  overflow-y: auto;
-  padding: 1rem;
+  overflow: hidden;
 }
