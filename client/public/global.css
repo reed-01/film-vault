@@ -1,8 +1,6 @@
 * {
   margin: 0;
   padding: 0;
-  scrollbar-width: thin;
-  scrollbar-color: #555 #181818;
 }
 
 body {
@@ -10,5 +8,23 @@ body {
   font-size: 14px;
   background-color: #181818;
   color: lightgrey;
-  overflow: hidden;
+  overflow-y: auto;
+}
+
+/* App shell layout */
+html,
+body,
+#root,
+#app {
+  height: 100%;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+}
+
+#main-content {
+  flex: 1;
+  padding: 1rem;
 }

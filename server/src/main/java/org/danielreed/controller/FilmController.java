@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin
+@RequestMapping("/film")
 public class FilmController {
 
     private FilmService filmService;
@@ -14,7 +15,12 @@ public class FilmController {
         this.filmService = filmService;
     }
 
-    @GetMapping("/film")
+    @GetMapping("/{filmId}")
+    public Film getFilmById(@PathVariable String filmId) {
+        return filmService.getFilmById(filmId);
+    }
+
+    @GetMapping("/search")
     public Film getFilmByTitle(@RequestParam String title) {
         return filmService.getFilmByTitle(title);
     }

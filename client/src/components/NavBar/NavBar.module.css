@@ -1,16 +1,37 @@
 .navBar {
-  border-bottom: solid 2px grey;
-}
-
-.navLinks {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  list-style: none;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.5rem 1rem;
+  border-bottom: 1px solid grey;
 }
 
-.navLeft a,
-.navRight a {
+.left,
+.right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.link {
   text-decoration: none;
-  text-transform: uppercase;
+  color: inherit;
+}
+
+/* center search */
+.searchForm {
+  display: flex;
+  gap: 0.5rem;
+  flex: 1;
+  max-width: 420px;
+}
+
+.searchInput {
+  flex: 1;
+  padding: 0.5rem 0.75rem;
+}
+
+.searchBtn {
+  padding: 0.5rem 0.75rem;
 }
