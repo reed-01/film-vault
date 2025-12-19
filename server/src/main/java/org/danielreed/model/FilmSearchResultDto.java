@@ -1,22 +1,23 @@
 package org.danielreed.model;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class FilmSearchResultDto {
 
-    @JsonProperty("imdbID")
+    @JsonAlias("imdbID")
     private String filmId;
 
-    @JsonProperty("Type")
+    @JsonAlias("Type")
     private String filmType;
 
-    @JsonProperty("Title")
+    @JsonAlias("Title")
     private String title;
 
-    @JsonProperty("Year")
+    @JsonAlias("Year")
     private String releaseYear;
 
-    @JsonProperty("Poster")
+    @JsonAlias("Poster")
     private String poster;
 
     public FilmSearchResultDto() { }

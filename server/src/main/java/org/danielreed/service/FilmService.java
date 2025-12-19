@@ -9,6 +9,7 @@ import org.springframework.web.client.RestClient;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -42,6 +43,18 @@ public class FilmService {
             return Collections.emptyList();
         }
 
-        return responseDto.getSearch();
+        // Filter to only show movies and series
+        List<FilmSearchResultDto> results = new ArrayList<>();
+
+        for (FilmSearchResultDto film : responseDto.getSearch()) {
+
+            String type = film.getFilmType();
+
+            if ("movie".equalsIgnoreCase(type) || "series".equalsIgnoreCase(type)) {
+                results.add(film);
+            }
+        }
+
+        return results;
     }
 }
