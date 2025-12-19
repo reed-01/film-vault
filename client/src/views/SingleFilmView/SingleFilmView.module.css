@@ -1,0 +1,31 @@
+.page {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.layout {
+  display: flex;
+  gap: 2rem;
+}
+
+.poster {
+  width: 300px;
+  flex-shrink: 0;
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+@media (max-width: 700px) {
+  .layout {
+    flex-direction: column;
+  }
+
+  .poster {
+    width: 100%;
+    max-width: 300px;
+  }
+}

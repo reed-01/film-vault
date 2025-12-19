@@ -1,55 +1,55 @@
 package org.danielreed.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonAlias;
 
 public class Film {
 
-    @JsonProperty("imdbID")
+    @JsonAlias("imdbID")
     private String filmId;
 
-    @JsonProperty("Type")
+    @JsonAlias("Type")
     private String filmType;
 
-    @JsonProperty("Title")
+    @JsonAlias("Title")
     private String title;
 
-    @JsonProperty("Year")
+    @JsonAlias("Year")
     private String releaseYear;
 
-    @JsonProperty("Rated")
+    @JsonAlias("Rated")
     private String rated;
 
-    @JsonProperty("Released")
+    @JsonAlias("Released")
     private String releaseDate;
 
-    @JsonProperty("Runtime")
+    @JsonAlias("Runtime")
     private String runtime;
 
-    @JsonProperty("Genre")
+    @JsonAlias("Genre")
     private String genre;
 
-    @JsonProperty("Director")
+    @JsonAlias("Director")
     private String director;
 
-    @JsonProperty("Actors")
+    @JsonAlias("Actors")
     private String actors;
 
-    @JsonProperty("Plot")
+    @JsonAlias("Plot")
     private String plot;
 
-    @JsonProperty("Language")
+    @JsonAlias("Language")
     private String language;
 
-    @JsonProperty("Country")
+    @JsonAlias("Country")
     private String country;
 
-    @JsonProperty("Awards")
+    @JsonAlias("Awards")
     private String awards;
 
-    @JsonProperty("Poster")
+    @JsonAlias("Poster")
     private String poster;
 
-    @JsonProperty("imdbRating")
+    @JsonAlias("imdbRating")
     private String imdbRating;
 
     public Film() { }

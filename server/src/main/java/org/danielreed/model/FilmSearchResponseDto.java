@@ -1,18 +1,18 @@
 package org.danielreed.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonAlias;
 
 import java.util.List;
 
 public class FilmSearchResponseDto {
 
-    @JsonProperty("Search")
+    @JsonAlias("Search")
     private List<FilmSearchResultDto> search;
 
-    @JsonProperty("Response")
+    @JsonAlias("Response")
     private String response;
 
-    @JsonProperty("Error")
+    @JsonAlias("Error")
     private String error;
 
     public FilmSearchResponseDto() { }

@@ -5,7 +5,7 @@ export default {
     return axios.get(`/film/${filmId}`);
   },
 
-  getFilmByTitle(title) {
+  searchFilmsByTitle(title) {
     return axios.get('/film/search', { params: { title } });
   },
 };
