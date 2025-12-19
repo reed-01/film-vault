@@ -1,8 +1,11 @@
 package org.danielreed.controller;
 
 import org.danielreed.model.Film;
+import org.danielreed.model.FilmSearchResultDto;
 import org.danielreed.service.FilmService;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @CrossOrigin
@@ -21,7 +24,7 @@ public class FilmController {
     }
 
     @GetMapping("/search")
-    public Film getFilmByTitle(@RequestParam String title) {
-        return filmService.getFilmByTitle(title);
+    public List<FilmSearchResultDto> searchFilmsByTitle(@RequestParam String title) {
+        return filmService.searchFilmsByTitle(title);
     }
 }
