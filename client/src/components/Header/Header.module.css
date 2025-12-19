@@ -1,31 +1,23 @@
-header {
+.header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: solid 2px grey;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid grey;
 }
 
-.leftHeader {
+.left {
   display: flex;
   align-items: center;
   gap: 0.75rem;
 }
 
-.logo {
-  color: blue;
-  font-size: 3.5rem;
-}
-
 .title {
-  text-transform: capitalize;
+  margin: 0;
+  font-size: 1.25rem;
 }
 
-.rightHeader {
+.right {
   display: flex;
   align-items: center;
-  padding-right: 0.75rem;
-}
-
-.greeting {
-  text-transform: capitalize;
 }

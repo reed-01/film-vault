@@ -58,7 +58,7 @@ public class WebSecurityConfig {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.POST, "/login", "/register").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/film").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/film/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .with(securityConfigurerAdapter(), Customizer.withDefaults());

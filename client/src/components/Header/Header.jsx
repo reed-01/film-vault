@@ -10,15 +10,15 @@ export default function Header() {
   const { user } = useContext(UserContext);
 
   return (
-    <header>
-      <div className={styles.leftHeader}>
-        <FontAwesomeIcon icon={faFilm} className={styles.logo} />
+    <header className={styles.header}>
+      <div className={styles.left}>
+        <FontAwesomeIcon icon={faFilm} />
         <h1 className={styles.title}>Film Vault</h1>
       </div>
 
-      <div className={styles.rightHeader}>
+      <div className={styles.right}>
         {user ? (
-          <p className={styles.greeting}>Welcome: {user.username}</p>
+          <p>Welcome: {user.username}</p>
         ) : (
           <p>Login to create a collection.</p>
         )}

@@ -16,6 +16,15 @@ public class FilmService {
     @Value("${omdb.api.key}")
     private String apiKey;
 
+    public Film getFilmById(String filmId) {
+
+        String url = "http://www.omdbapi.com/?i=" + filmId + "&apikey=" + apiKey;
+
+        RestClient restClient = RestClient.create(url);
+
+        return restClient.get().uri("").retrieve().body(Film.class);
+    }
+
     public Film getFilmByTitle(String title) {
 
         // encode title to account for special char in film title spacing
@@ -23,7 +32,7 @@ public class FilmService {
 
         String url = "http://www.omdbapi.com/?t=" + encodedTitle + "&apikey=" + apiKey;
 
-        restClient = RestClient.create(url);
+        RestClient restClient = RestClient.create(url);
 
         return restClient.get().uri("").retrieve().body(Film.class);
     }
