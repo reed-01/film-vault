@@ -1,15 +1,67 @@
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../../context/UserContext';
+import Notification from '../../components/Notification/Notification';
+import CollectionService from '../../services/CollectionService';
+import FilmCard from '../../components/FilmCard/FilmCard';
+
+import styles from './CollectionView.module.css';
 
 export default function CollectionView() {
-
+  const [notification, setNotification] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
   const { user } = useContext(UserContext);
+  const navigate = useNavigate();
+  const [films, setFilms] = useState([]);
+
+  function getPageData() {
+    setIsLoading(true);
+    CollectionService.getUserCollection()
+      .then((response) => {
+        setFilms(response.data);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        const errorMessage = error.response
+          ? error.response.data.message
+          : error.message;
+        console.error(errorMessage);
+        setIsLoading(false);
+      });
+  }
+
+  useEffect(() => {
+    setTimeout(() => {
+      getPageData();
+    }, 600);
+  }, []);
 
   return (
-    <div>
-      <h1>Film Collection</h1>
-      <br/>
-      <p>Hello, {user.username}! </p>
-    </div>
+    <>
+      <div className={styles.collectionHeader}>
+        <h2>{user.username}'s Collection</h2>
+      </div>
+
+      <Notification
+        notification={notification}
+        clearNotification={() => setNotification(null)}
+      />
+
+      <div>
+        {isLoading ? (
+          <p>Loading...</p> // <img src={loadingImg} alt="loading gif" />
+        ) : (
+          <>
+            <div className={styles.page}>
+              <div className={styles.grid}>
+                {films.map((film) => (
+                  <FilmCard key={film.filmId} film={film} />
+                ))}
+              </div>
+            </div>
+          </>
+        )}
+      </div>
+    </>
   );
 }

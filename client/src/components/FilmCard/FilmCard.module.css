@@ -18,6 +18,9 @@
 }
 
 .title {
-  margin: 0;
-  padding: 0.6rem 0.75rem;
+  padding-top: 0.6rem;
+}
+
+.releaseYear {
+  padding-top: 0.6rem;
 }

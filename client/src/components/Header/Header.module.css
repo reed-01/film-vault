@@ -10,11 +10,18 @@
   display: flex;
   align-items: center;
   gap: 0.75rem;
+  text-decoration: none;
+}
+
+.logo {
+  font-size: 1.75rem;
+  color: lightgrey;
 }
 
 .title {
   margin: 0;
-  font-size: 1.25rem;
+  font-size: 1.75rem;
+  color: lightgrey;
 }
 
 .right {

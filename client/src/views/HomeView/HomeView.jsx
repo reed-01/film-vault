@@ -1,18 +1,3 @@
-// import styles from './HomeView.module.css';
-
-// export default function HomeView() {
-//   return (
-//     <>
-//       <h1>Home</h1>
-//       <br />
-
-//       <p>Welcome to the Film Vault!</p>
-//       <p>Find your favorite films.</p>
-//       <br />
-//     </>
-//   );
-// }
-
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import FilmService from '../../services/FilmService';
@@ -32,17 +17,19 @@ export default function HomeView() {
     }
 
     FilmService.searchFilmsByTitle(q.trim())
-      .then((res) => setFilms(res.data || []))
+      .then((response) => setFilms(response.data || []))
       .catch(() => setFilms([]));
   }, [q]);
 
   return (
-    <div className={styles.page}>
-      <div className={styles.grid}>
-        {films.map((film) => (
-          <FilmCard key={film.filmId} film={film} />
-        ))}
+    <>
+      <div className={styles.page}>
+        <div className={styles.grid}>
+          {films.map((film) => (
+            <FilmCard key={film.filmId} film={film} />
+          ))}
+        </div>
       </div>
-    </div>
+    </>
   );
 }
