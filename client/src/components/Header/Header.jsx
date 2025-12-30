@@ -1,5 +1,6 @@
 import { useContext } from 'react';
 import { UserContext } from '../../context/UserContext';
+import { NavLink } from 'react-router-dom';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFilm } from '@fortawesome/free-solid-svg-icons';
@@ -11,17 +12,13 @@ export default function Header() {
 
   return (
     <header className={styles.header}>
-      <div className={styles.left}>
-        <FontAwesomeIcon icon={faFilm} />
+      <NavLink to="/" className={styles.left}>
+        <FontAwesomeIcon icon={faFilm} className={styles.logo} />
         <h1 className={styles.title}>Film Vault</h1>
-      </div>
+      </NavLink>
 
       <div className={styles.right}>
-        {user ? (
-          <p>Welcome: {user.username}</p>
-        ) : (
-          <p>Login to create a collection.</p>
-        )}
+        {user ? <p>User: {user.username}</p> : <p>Welcome: Guest</p>}
       </div>
     </header>
   );

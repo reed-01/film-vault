@@ -1,36 +1,36 @@
 import axios from 'axios';
 
 export default {
-  getUserCollection(userId) {
-    return axios.get(`/collection/${userId}`);
+  getUserCollection() {
+    return axios.get('/collection');
   },
 
   postFilmToCollection(film) {
-    return axios.post(`/collection/${film}`);
+    return axios.post('/collection', film);
   },
 
   getCollectionFilmsByType(filmType) {
-    return axios.get(`/collection/${filmType}`);
+    return axios.get(`/collection/type/${filmType}`);
   },
 
   getCollectionFilmsByGenre(genre) {
-    return axios.get(`/collection/${genre}`);
+    return axios.get(`/collection/genre/${genre}`);
   },
 
   getCollectionFilmsByRated(rated) {
-    return axios.get(`/collection/${rated}`);
+    return axios.get(`/collection/rated/${rated}`);
   },
 
   getCollectionFilmsByReleaseYear(releaseYear) {
-    return axios.get(`/collection/${releaseYear}`);
+    return axios.get(`/collection/releaseYear/${releaseYear}`);
   },
 
   getCollectionFilmsByActor(actors) {
-    return axios.get(`/collection/${actors}`);
+    return axios.get(`/collection/actors/${actors}`);
   },
 
   getCollectonFilmsByDirector(director) {
-    return axios.get(`collection/${director}`);
+    return axios.get(`collection/director/${director}`);
   },
 
   deleteFilmFromCollection(filmId) {
