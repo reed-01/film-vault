@@ -1,20 +1,28 @@
 import { Link } from 'react-router-dom';
 import styles from './FilmCard.module.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-export default function FilmCard({ film }) {
+export default function FilmCard({ film, showDeleteButton, onDelete }) {
   const { filmId, title, poster, releaseYear } = film;
 
   return (
-    <Link to={`/film/${filmId}`} className={styles.card}>
-      <div className={styles.posterWrap}>
-        <img
-          src={film.poster}
-          alt={`${title} poster`}
-          className={styles.poster}
-        />
-      </div>
-      <h3 className={styles.title}>{title}</h3>
+    <div className={styles.card}>
+      <Link to={`/film/${filmId}`} className={styles.posterWrap}>
+        <img src={poster} alt={`${title} poster`} className={styles.poster} />
+      </Link>
+
+      {showDeleteButton && (
+        <button
+          className={styles.deleteButton}
+          onClick={() => onDelete(filmId)}
+          title="Remove from collection"
+        >
+          <FontAwesomeIcon icon="fa-solid fa-trash-can" />
+        </button>
+      )}
+
       <p className={styles.releaseYear}>{releaseYear}</p>
-    </Link>
+      <h3 className={styles.title}>{title}</h3>
+    </div>
   );
 }
