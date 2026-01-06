@@ -48,66 +48,6 @@ public class CollectionController {
         return collectionDao.getCollectionByUserId(userId);
     }
 
-    @GetMapping("type/{filmType}")
-    public List<Film> getCollectionFilmsByType(@PathVariable String filmType, Principal principal) {
-
-        String userName = principal.getName();
-        User user = userDao.getUserByUsername(userName);
-        int userId = user.getId();
-
-        return collectionDao.getCollectionFilmsByType(filmType, userId);
-    }
-
-    @GetMapping("genre/{genre}")
-    public List<Film> getCollectionFilmsByGenre(@PathVariable String genre, Principal principal) {
-
-        String userName = principal.getName();
-        User user = userDao.getUserByUsername(userName);
-        int userId = user.getId();
-
-        return collectionDao.getCollectionFilmsByGenre(genre, userId);
-    }
-
-    @GetMapping("rated/{rated}")
-    public List<Film> getCollectionFilmsByRated(@PathVariable String rated, Principal principal) {
-
-        String userName = principal.getName();
-        User user = userDao.getUserByUsername(userName);
-        int userId = user.getId();
-
-        return collectionDao.getCollectionFilmsByRated(rated, userId);
-    }
-
-    @GetMapping("releaseYear/{releaseYear}")
-    public List<Film> getCollectionFilmsByReleaseYear(@PathVariable String releaseYear, Principal principal) {
-
-        String userName = principal.getName();
-        User user = userDao.getUserByUsername(userName);
-        int userId = user.getId();
-
-        return collectionDao.getCollectionFilmsByReleaseYear(releaseYear, userId);
-    }
-
-    @GetMapping("actor/{actors}")
-    public List<Film> getCollectionFilmsByActor(@PathVariable String actors, Principal principal) {
-
-        String userName = principal.getName();
-        User user = userDao.getUserByUsername(userName);
-        int userId = user.getId();
-
-        return collectionDao.getCollectionFilmsByActor(actors, userId);
-    }
-
-    @GetMapping("director/{director}")
-    public List<Film> getCollectionFilmsByDirector(@PathVariable String director, Principal principal) {
-
-        String userName = principal.getName();
-        User user = userDao.getUserByUsername(userName);
-        int userId = user.getId();
-
-        return collectionDao.getCollectionFilmsByDirector(director, userId);
-    }
-
     @DeleteMapping("/{filmId}")
     public int deleteFilmFromCollection(@PathVariable String filmId, Principal principal) {
 
