@@ -35,7 +35,7 @@ export default function SingleFilmView() {
     }, 600);
   }, [id]);
 
-  function handleAddToCollection(film) {
+  function handlePostToCollection(film) {
     if (!user) {
       navigate('/login');
       return;
@@ -80,7 +80,7 @@ export default function SingleFilmView() {
                 <button
                   type="button"
                   className={styles.collectionButton}
-                  onClick={() => handleAddToCollection(film)}
+                  onClick={() => handlePostToCollection(film)}
                 >
                   Add to Collection
                 </button>
