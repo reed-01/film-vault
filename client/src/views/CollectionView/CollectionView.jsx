@@ -4,6 +4,7 @@ import { UserContext } from '../../context/UserContext';
 import Notification from '../../components/Notification/Notification';
 import CollectionService from '../../services/CollectionService';
 import FilmCard from '../../components/FilmCard/FilmCard';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import styles from './CollectionView.module.css';
 
@@ -36,6 +37,21 @@ export default function CollectionView() {
     }, 600);
   }, []);
 
+  function handleDeleteFilmFromCollection(filmId) {
+    CollectionService.deleteFilmFromCollection(filmId)
+      .then(() => {
+        setNotification({ type: 'success', message: 'Film removed' });
+        getPageData();
+      })
+      .catch((error) => {
+        const errorMessage = error.response
+          ? error.response.data.message
+          : error.message;
+        console.error(errorMessage);
+        setNotification({ type: 'error', message: 'Action failed' });
+      });
+  }
+
   return (
     <>
       <div className={styles.collectionHeader}>
@@ -55,7 +71,12 @@ export default function CollectionView() {
             <div className={styles.page}>
               <div className={styles.grid}>
                 {films.map((film) => (
-                  <FilmCard key={film.filmId} film={film} />
+                  <FilmCard
+                    key={film.filmId}
+                    film={film}
+                    showDeleteButton={true}
+                    onDelete={handleDeleteFilmFromCollection}
+                  />
                 ))}
               </div>
             </div>

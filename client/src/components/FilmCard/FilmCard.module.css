@@ -15,10 +15,25 @@
   height: 100%;
   object-fit: cover;
   display: block;
+  cursor: pointer;
+}
+
+.deleteButton {
+  cursor: pointer;
+  background-color: grey;
+  border: none;
+  width: 100%;
+  height: 24px;
+}
+
+.deleteButton:hover {
+  background-color: darkred;
+  color: white;
 }
 
 .title {
   padding-top: 0.6rem;
+  height: 2.4rem;
 }
 
 .releaseYear {
