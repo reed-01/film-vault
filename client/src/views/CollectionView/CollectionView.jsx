@@ -1,19 +1,17 @@
 import { useContext, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { UserContext } from '../../context/UserContext';
-import Notification from '../../components/Notification/Notification';
+import { UserContext } from '../../context/user/UserContext';
 import CollectionService from '../../services/CollectionService';
 import FilmCard from '../../components/FilmCard/FilmCard';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useCollection } from '../../context/collection/CollectionContext';
 
 import styles from './CollectionView.module.css';
 
 export default function CollectionView() {
-  const [notification, setNotification] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const { user } = useContext(UserContext);
-  const navigate = useNavigate();
   const [films, setFilms] = useState([]);
+  const { handlePostToCollection, handleDeleteFilmFromCollection } =
+    useCollection();
 
   function getPageData() {
     setIsLoading(true);
@@ -37,31 +35,11 @@ export default function CollectionView() {
     }, 600);
   }, []);
 
-  function handleDeleteFilmFromCollection(filmId) {
-    CollectionService.deleteFilmFromCollection(filmId)
-      .then(() => {
-        setNotification({ type: 'success', message: 'Film removed' });
-        getPageData();
-      })
-      .catch((error) => {
-        const errorMessage = error.response
-          ? error.response.data.message
-          : error.message;
-        console.error(errorMessage);
-        setNotification({ type: 'error', message: 'Action failed' });
-      });
-  }
-
   return (
     <>
       <div className={styles.collectionHeader}>
         <h2>{user.username}'s Collection</h2>
       </div>
-
-      <Notification
-        notification={notification}
-        clearNotification={() => setNotification(null)}
-      />
 
       <div>
         {isLoading ? (
@@ -71,12 +49,7 @@ export default function CollectionView() {
             <div className={styles.page}>
               <div className={styles.grid}>
                 {films.map((film) => (
-                  <FilmCard
-                    key={film.filmId}
-                    film={film}
-                    showDeleteButton={true}
-                    onDelete={handleDeleteFilmFromCollection}
-                  />
+                  <FilmCard key={film.filmId} film={film} />
                 ))}
               </div>
             </div>

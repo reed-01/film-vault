@@ -16,8 +16,14 @@ export default function HomeView() {
       return;
     }
 
+    // FilmService.searchFilmsByTitle(q.trim())
+    //   .then((response) => setFilms(response.data || []))
+    //   .catch(() => setFilms([]));
     FilmService.searchFilmsByTitle(q.trim())
-      .then((response) => setFilms(response.data || []))
+      .then((response) => {
+        console.log('searchFilmsByTitle response:', response.data);
+        setFilms(response.data || []);
+      })
       .catch(() => setFilms([]));
   }, [q]);
 
