@@ -18,16 +18,29 @@
   cursor: pointer;
 }
 
+.addButton {
+  cursor: pointer;
+  background-color: darkgreen;
+  border: none;
+  width: 100%;
+  height: 24px;
+}
+
+.addButton:hover {
+  background-color: green;
+  color: white;
+}
+
 .deleteButton {
   cursor: pointer;
-  background-color: grey;
+  background-color: darkred;
   border: none;
   width: 100%;
   height: 24px;
 }
 
 .deleteButton:hover {
-  background-color: darkred;
+  background-color: red;
   color: white;
 }
 
