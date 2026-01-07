@@ -1,9 +1,9 @@
 import { useContext, useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { UserContext } from '../../context/user/UserContext';
-
 import FilmService from '../../services/FilmService';
-import CollectionService from '../../services/CollectionService';
+import { useCollection } from '../../context/collection/CollectionContext';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import styles from './SingleFilmView.module.css';
 
@@ -14,6 +14,14 @@ export default function SingleFilmView() {
 
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
+
+  const {
+    isInCollection,
+    handlePostToCollection,
+    handleDeleteFilmFromCollection,
+  } = useCollection();
+
+  const inCollection = isInCollection(id);
 
   function getPageData() {
     FilmService.getFilmById(id)
@@ -47,6 +55,24 @@ export default function SingleFilmView() {
                   alt={`${film.title} poster`}
                   className={styles.poster}
                 />
+
+                {!inCollection ? (
+                  <button
+                    className={styles.addButton}
+                    onClick={() => handlePostToCollection(film)}
+                    title="Add to collection"
+                  >
+                    +
+                  </button>
+                ) : (
+                  <button
+                    className={styles.deleteButton}
+                    onClick={() => handleDeleteFilmFromCollection(film.filmId)}
+                    title="Remove from collection"
+                  >
+                    <FontAwesomeIcon icon="fa-solid fa-trash-can" />
+                  </button>
+                )}
               </div>
 
               <div className={styles.detailsColumn}>
