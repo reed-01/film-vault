@@ -44,6 +44,8 @@ export default function CollectionView() {
       <div>
         {isLoading ? (
           <p>Loading...</p> // <img src={loadingImg} alt="loading gif" />
+        ) : films.length === 0 ? (
+          <h3 className={styles.emptyMessage}>Your collection is empty.</h3>
         ) : (
           <>
             <div className={styles.page}>
