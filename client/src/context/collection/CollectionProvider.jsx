@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import CollectionService from '../../services/CollectionService';
 import { CollectionContext } from './CollectionContext';
 import { UserContext } from '../user/UserContext';
+import Notification from '../../components/Notification/Notification';
 
 export function CollectionProvider({ children }) {
   const navigate = useNavigate();
@@ -81,6 +82,10 @@ export function CollectionProvider({ children }) {
         setNotification,
       }}
     >
+      <Notification
+        notification={notification}
+        clearNotification={() => setNotification(null)}
+      />
       {children}
     </CollectionContext.Provider>
   );
