@@ -8,6 +8,12 @@
   margin-bottom: 1rem;
 }
 
+.helperText {
+  text-align: center;
+  margin-top: 2rem;
+  color: lightgrey;
+}
+
 .grid {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
