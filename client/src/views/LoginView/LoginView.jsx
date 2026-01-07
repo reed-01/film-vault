@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import AuthService from '../../services/AuthService';
 import Notification from '../../components/Notification/Notification';
-import { UserContext } from '../../context/UserContext';
+import { UserContext } from '../../context/user/UserContext';
 import axios from 'axios';
 
 import styles from './LoginView.module.css';
@@ -48,23 +48,41 @@ export default function LoginView() {
     <div id="view-login">
       <h2>Log in</h2>
 
-      <Notification notification={notification} clearNotification={() => setNotification(null)} />
+      <Notification
+        notification={notification}
+        clearNotification={() => setNotification(null)}
+      />
 
       <form onSubmit={handleSubmit}>
-
         <div className="form-control">
           <label htmlFor="username">Username:</label>
-          <input type="text" id="username" value={username} size="50" required autoFocus autoComplete="username"
-              onChange={(event) => setUsername(event.target.value)} />
+          <input
+            type="text"
+            id="username"
+            value={username}
+            size="50"
+            required
+            autoFocus
+            autoComplete="username"
+            onChange={(event) => setUsername(event.target.value)}
+          />
         </div>
 
         <div className="form-control">
           <label htmlFor="password">Password:</label>
-          <input type="password" id="password" value={password} size="50" required
-              onChange={(event) => setPassword(event.target.value)} />
+          <input
+            type="password"
+            id="password"
+            value={password}
+            size="50"
+            required
+            onChange={(event) => setPassword(event.target.value)}
+          />
         </div>
 
-        <button type="submit" className={`btn-primary ${styles.formButton}`}>Sign in</button>
+        <button type="submit" className={`btn-primary ${styles.formButton}`}>
+          Sign in
+        </button>
         <Link to="/register">New? Register here!</Link>
       </form>
     </div>

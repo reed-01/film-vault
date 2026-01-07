@@ -1,15 +1,13 @@
 import { useContext, useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { UserContext } from '../../context/UserContext';
+import { UserContext } from '../../context/user/UserContext';
 
 import FilmService from '../../services/FilmService';
 import CollectionService from '../../services/CollectionService';
-import Notification from '../../components/Notification/Notification';
 
 import styles from './SingleFilmView.module.css';
 
 export default function SingleFilmView() {
-  const [notification, setNotification] = useState(null);
   const { id } = useParams();
   const [film, setFilm] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -35,35 +33,8 @@ export default function SingleFilmView() {
     }, 600);
   }, [id]);
 
-  function handlePostToCollection(film) {
-    if (!user) {
-      navigate('/login');
-      return;
-    }
-
-    CollectionService.postFilmToCollection(film)
-      .then(() =>
-        setNotification({ type: 'success', message: 'Added to Collection.' })
-      )
-      .catch((error) => {
-        const errorMessage = error.response
-          ? error.response.data.message
-          : error.message;
-        console.error(errorMessage);
-        setNotification({
-          type: 'error',
-          message: 'Could not add to Collection.',
-        });
-      });
-  }
-
   return (
     <>
-      <Notification
-        notification={notification}
-        clearNotification={() => setNotification(null)}
-      />
-
       <div className={styles.page}>
         {isLoading ? (
           <p>Loading...</p> // <img src={loadingImg} alt="loading gif" />
@@ -76,14 +47,6 @@ export default function SingleFilmView() {
                   alt={`${film.title} poster`}
                   className={styles.poster}
                 />
-
-                <button
-                  type="button"
-                  className={styles.collectionButton}
-                  onClick={() => handlePostToCollection(film)}
-                >
-                  Add to Collection
-                </button>
               </div>
 
               <div className={styles.detailsColumn}>

@@ -1,5 +1,4 @@
 import { createRoot } from 'react-dom/client';
-import UserProvider from './context/UserProvider.jsx';
 import axios from 'axios';
 import App from './App.jsx';
 
@@ -35,8 +34,4 @@ library.add(faFilm);
 // Set base url for server API communication with axios
 axios.defaults.baseURL = import.meta.env.VITE_REMOTE_API;
 
-createRoot(document.getElementById('root')).render(
-  <UserProvider>
-    <App />
-  </UserProvider>
-);
+createRoot(document.getElementById('root')).render(<App />);
