@@ -1,7 +1,6 @@
 package org.danielreed.model;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class FilmSearchResultDto {
 
