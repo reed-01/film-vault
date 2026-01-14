@@ -46,8 +46,8 @@ INSERT INTO television_show_credits (television_show_id, person_id, credit_role,
 INSERT INTO television_show_credits (television_show_id, person_id, credit_role, character_name) VALUES (1, 2, 'role2', 'character2');
 
 -- users
-INSERT INTO users (username, password_hash, role, name, address, city, state_code, zip_code) VALUES ('user1', 'user1', 'ROLE_USER', 'User One', '123 Test Street', 'Testville', 'NY', '12345');
-INSERT INTO users (username, password_hash, role, name, address, city, state_code, zip_code) VALUES ('user2', 'user2', 'ROLE_USER', 'User Two', '456 Test Street', 'Coolville', 'NY', '67899');
-INSERT INTO users (username, password_hash, role, name, address, city, state_code, zip_code) VALUES ('user3', 'user3', 'ROLE_USER', 'User Three', '789 Test Street', 'Test Town', 'NY', '99876');
+INSERT INTO users (username, password_hash, role) VALUES ('user1', 'user1', 'ROLE_USER');
+INSERT INTO users (username, password_hash, role) VALUES ('user2', 'user2', 'ROLE_USER');
+INSERT INTO users (username, password_hash, role) VALUES ('user3', 'user3', 'ROLE_USER');
 
 COMMIT;

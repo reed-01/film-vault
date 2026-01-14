@@ -15,13 +15,15 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import javax.sql.DataSource;
+
 @Component
 public class JdbcUserDao implements UserDao {
 
     private final JdbcTemplate jdbcTemplate;
 
-    public JdbcUserDao(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+    public JdbcUserDao(JdbcTemplate jdbctemplate) {
+        this.jdbcTemplate = jdbctemplate;
     }
 
     @Override

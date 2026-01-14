@@ -90,12 +90,6 @@ CREATE TABLE users (
 	username VARCHAR(50) NOT NULL UNIQUE,
 	password_hash VARCHAR(200) NOT NULL,
 	role VARCHAR(50) NOT NULL,
-	name VARCHAR(50) NOT NULL,
-	address VARCHAR(100) NOT NULL,
-	city VARCHAR(50) NOT NULL,
-	state_code CHAR(2) NOT NULL,
-	zip_code VARCHAR(5) NOT NULL,
-	rating INT CHECK (rating BETWEEN 1 AND 5),
 	CONSTRAINT PK_user PRIMARY KEY (user_id)
 );
 
