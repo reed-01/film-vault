@@ -26,7 +26,7 @@ public class TestingDatabaseConfig {
     private static final String DB_USERNAME =
             Objects.requireNonNullElse(System.getenv("DB_USERNAME"), "postgres");
     private static final String DB_PASSWORD =
-            Objects.requireNonNullElse(System.getenv("DB_PASSWORD"), "__REMOVED_DB_PASSWORD__");
+            Objects.requireNonNullElse(System.getenv("DB_PASSWORD"), "");
 
 
     private SingleConnectionDataSource adminDataSource;
@@ -38,7 +38,7 @@ public class TestingDatabaseConfig {
             adminDataSource = new SingleConnectionDataSource();
             adminDataSource.setUrl("jdbc:postgresql://localhost:5432/postgres");
             adminDataSource.setUsername("postgres");
-            adminDataSource.setPassword("__REMOVED_DB_PASSWORD__");
+            adminDataSource.setPassword(DB_PASSWORD);
             adminJdbcTemplate = new JdbcTemplate(adminDataSource);
             adminJdbcTemplate.update("DROP DATABASE IF EXISTS \"" + DB_NAME + "\";");
             adminJdbcTemplate.update("CREATE DATABASE \"" + DB_NAME + "\";");
@@ -50,6 +50,10 @@ public class TestingDatabaseConfig {
     @Bean
     public DataSource dataSource() throws SQLException {
         if(ds != null) return ds;
+
+        if (DB_PASSWORD.isBlank()) {
+            throw new IllegalStateException("DB_PASSWORD env var must be set for tests");
+        }
 
         SingleConnectionDataSource dataSource = new SingleConnectionDataSource();
         dataSource.setUrl(String.format("jdbc:postgresql://%s:%s/%s", DB_HOST, DB_PORT, DB_NAME));
